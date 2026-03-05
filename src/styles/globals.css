@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================
+   MISSION CONTROL (DARK)
+   ======================== */
+[data-theme="dark"] {
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #a78bfa;
+  --color-surface: #050505;
+  --color-surface-raised: rgba(255, 255, 255, 0.05);
+  --color-surface-overlay: rgba(255, 255, 255, 0.08);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-active: #8b5cf6;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #475569;
+  --color-text-inverse: #050505;
+  --color-accent: #8b5cf6;
+  --color-accent-subtle: rgba(139, 92, 246, 0.15);
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  --radius: 4px;
+  --radius-sm: 2px;
+  --radius-lg: 8px;
+
+  --shadow-glow: 0 0 10px rgba(139, 92, 246, 0.4);
+  --shadow-glow-lg: 0 0 20px rgba(139, 92, 246, 0.6);
+  --shadow-panel: 0 4px 24px rgba(0, 0, 0, 0.5);
+
+  --blur-panel: 12px;
+}
+
+/* ========================
+   TECHNICAL CONSOLE (LIGHT)
+   ======================== */
+[data-theme="light"] {
+  --color-primary: #000000;
+  --color-primary-hover: #1e293b;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f8fafc;
+  --color-surface-overlay: #f1f5f9;
+  --color-border: #000000;
+  --color-border-active: #000000;
+  --color-text-primary: #000000;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+  --color-accent: #000000;
+  --color-accent-subtle: #e2e8f0;
+  --color-success: #16a34a;
+  --color-warning: #ca8a04;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-lg: 0px;
+
+  --shadow-glow: none;
+  --shadow-glow-lg: none;
+  --shadow-panel: none;
+
+  --blur-panel: 0px;
+}
+
+/* ========================
+   BASE DEFAULTS
+   ======================== */
+:root {
+  font-family: "JetBrains Mono", monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: "JetBrains Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================
+   SCROLLBAR (DARK)
+   ======================== */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
+}
+
+/* ========================
+   SCROLLBAR (LIGHT)
+   ======================== */
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 0px;
+}
+
+/* ========================
+   UTILITY: GLASSMORPHISM
+   ======================== */
+@layer utilities {
+  .glass-panel {
+    background: var(--color-surface-raised);
+    backdrop-filter: blur(var(--blur-panel));
+    -webkit-backdrop-filter: blur(var(--blur-panel));
+    border: 1px solid var(--color-border);
+  }
+
+  .glow-border {
+    border: 2px solid var(--color-border-active);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glow-border-lg {
+    border: 2px solid var(--color-border-active);
+    box-shadow: var(--shadow-glow-lg);
+  }
+}

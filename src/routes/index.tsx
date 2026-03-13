@@ -1,4 +1,4 @@
-import React from 'react';
+// React routing
 import { Navigate, RouteObject } from 'react-router-dom';
 import { Dashboard } from '../pages/dashboard/Dashboard';
 import { AuditLogsPage } from '../pages/logs/AuditLogsPage';
@@ -6,6 +6,10 @@ import { ReportsPage } from '../pages/reports/ReportsPage';
 import { UserManagementPage } from '../pages/users/UserManagementPage';
 import { UserDetailPage } from '../pages/users/detail/UserDetailPage';
 import { CatererManagementPage } from '../pages/caterers/CatererManagementPage';
+import { PendingApprovalsPage } from '../pages/caterers/pending/PendingApprovalsPage';
+import { CatererReviewPage } from '../pages/caterers/review/CatererReviewPage';
+import { CatererComplaintsPage } from '../pages/caterers/complaints/CatererComplaintsPage';
+import { MenuModerationPage } from '../pages/moderation/MenuModerationPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
 
 // We map out the requested paths:
@@ -50,6 +54,22 @@ export const routes: RouteObject[] = [
             {
                 path: 'caterers',
                 element: <CatererManagementPage />
+            },
+            {
+                path: 'caterers/pending',
+                element: <PendingApprovalsPage />
+            },
+            {
+                path: 'caterers/review/:appId',
+                element: <CatererReviewPage />
+            },
+            {
+                path: 'caterers/complaints',
+                element: <CatererComplaintsPage />
+            },
+            {
+                path: 'moderation/menu',
+                element: <MenuModerationPage />
             },
             // Add showcase or other routes here later
             {

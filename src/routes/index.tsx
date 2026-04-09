@@ -11,6 +11,8 @@ import { CatererReviewPage } from '../pages/caterers/review/CatererReviewPage';
 import { CatererComplaintsPage } from '../pages/caterers/complaints/CatererComplaintsPage';
 import { MenuModerationPage } from '../pages/moderation/MenuModerationPage';
 import { OffersModerationPage } from '../pages/moderation/OffersModerationPage';
+import { BlogModerationPage } from '../pages/moderation/BlogModerationPage';
+import { BlogReviewPage } from '../pages/moderation/blog/BlogReviewPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
 
 // We map out the requested paths:
@@ -75,6 +77,14 @@ export const routes: RouteObject[] = [
             {
                 path: 'moderation/offers',
                 element: <OffersModerationPage />
+            },
+            {
+                path: 'moderation/blog',
+                element: <BlogModerationPage />
+            },
+            {
+                path: 'moderation/blog/:postId',
+                element: <BlogReviewPage />
             },
             // Add showcase or other routes here later
             {

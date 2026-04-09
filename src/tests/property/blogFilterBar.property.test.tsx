@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import fc from 'fast-check';
-import React from 'react';
-import { BlogCategory, DateRange } from '../../pages/moderation/types';
+import { BlogCategory } from '../../pages/moderation/types';
 import { BlogModerationFilterBar } from '../../pages/moderation/BlogModerationFilterBar';
 
 /**

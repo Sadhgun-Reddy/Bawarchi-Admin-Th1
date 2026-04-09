@@ -1,5 +1,5 @@
 import React, { useState, useContext, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { ThemeContext } from '../../../components/ThemeProvider';
 import { ComplaintsHeader } from './ComplaintsHeader';
 import { ComplaintsStatsGrid } from './ComplaintsStatsGrid';
@@ -56,7 +56,6 @@ const MOCK_COMPLAINTS: Complaint[] = [
 export const CatererComplaintsPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
     const isDark = theme === 'dark';
-    const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState<'COMPLAINTS' | 'PERFORMANCE' | 'REVIEWS'>('COMPLAINTS');
 

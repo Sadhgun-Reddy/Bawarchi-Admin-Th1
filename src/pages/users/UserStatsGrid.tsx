@@ -17,7 +17,7 @@ export const UserStatsGrid: React.FC<UserStatsGridProps> = ({ isDark }) => {
 
     const itemVars = {
         hidden: { opacity: 0, y: 15 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+        show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as any } }
     };
 
     const cards = [

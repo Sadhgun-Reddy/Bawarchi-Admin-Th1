@@ -4,33 +4,37 @@ import { TopBar } from './TopBar';
 import { NavGroupType } from '../../types/navigation';
 import { ThemeContext } from '../ThemeProvider';
 
-// Dummy navigation data conforming to Phase A structure
+// Navigation data matching available routes
 const navGroups: NavGroupType[] = [
     {
         id: 'grp-ops',
         title: 'Operations',
         items: [
             { id: 'nav-dash', label: 'Dashboard', path: '/admin/dashboard', icon: 'dashboard' },
-            { id: 'nav-orders', label: 'Live Orders', path: '/admin/orders', icon: 'receipt_long', badge: { text: '12', colorVariant: 'warning' } },
-            { id: 'nav-kitchen', label: 'Kitchen Display', path: '/admin/kitchen', icon: 'restaurant' },
         ]
     },
     {
-        id: 'grp-mgmt',
-        title: 'Management',
+        id: 'grp-caterers',
+        title: 'Caterer Management',
         items: [
-            { id: 'nav-caterers', label: 'Caterer Management', path: '/admin/caterers', icon: 'workspace_premium' },
-            { id: 'nav-menu', label: 'Menu Items', path: '/admin/menu', icon: 'menu_book' },
-            { id: 'nav-inventory', label: 'Inventory', path: '/admin/inventory', icon: 'inventory_2', badge: { text: 'Low', colorVariant: 'danger' } },
-            { id: 'nav-staff', label: 'Staff & Shift', path: '/admin/staff', icon: 'group' },
+            { id: 'nav-caterers', label: 'All Caterers', path: '/admin/caterers', icon: 'workspace_premium' },
+            { id: 'nav-pending', label: 'Pending Approvals', path: '/admin/caterers/pending', icon: 'pending_actions', badge: { text: 'New', colorVariant: 'warning' } },
+            { id: 'nav-complaints', label: 'Complaints', path: '/admin/caterers/complaints', icon: 'report_problem' },
+        ]
+    },
+    {
+        id: 'grp-moderation',
+        title: 'Content Moderation',
+        items: [
+            { id: 'nav-menu-mod', label: 'Menu Moderation', path: '/admin/moderation/menu', icon: 'menu_book' },
+            { id: 'nav-offers-mod', label: 'Offers Moderation', path: '/admin/moderation/offers', icon: 'local_offer' },
         ]
     },
     {
         id: 'grp-sys',
-        title: 'System',
+        title: 'System & Analytics',
         items: [
             { id: 'nav-users', label: 'User Management', path: '/admin/users', icon: 'manage_accounts' },
-            { id: 'nav-settings', label: 'Configuration', path: '/admin/settings', icon: 'settings' },
             { id: 'nav-reports', label: 'Reports', path: '/admin/reports', icon: 'lab_profile' },
             { id: 'nav-logs', label: 'Audit Logs', path: '/admin/audit-logs', icon: 'manage_search' },
         ]
@@ -39,10 +43,9 @@ const navGroups: NavGroupType[] = [
 
 interface AdminShellProps {
     children: React.ReactNode;
-    currentPath?: string;
 }
 
-export const AdminShell: React.FC<AdminShellProps> = ({ children, currentPath = '/dashboard' }) => {
+export const AdminShell: React.FC<AdminShellProps> = ({ children }) => {
     const { theme } = useContext(ThemeContext);
     const isDark = theme === 'dark';
 

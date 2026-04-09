@@ -64,3 +64,44 @@ export interface OffersModerationState {
         totalRecords: number;
     };
 }
+
+// ==========================================
+// BLOG MODERATION TYPES
+// ==========================================
+
+export type BlogStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+export type BlogCategory = 'TRENDS' | 'SAFETY' | 'RECIPES' | 'DIETARY' | 'GUIDE' | 'BUSINESS' | 'SEASONAL';
+
+export interface BlogPostSubmission {
+    id: string; // e.g., "BLG-001"
+    title: string;
+    excerpt: string; // Short preview text
+    caterer: {
+        name: string;
+        logoUrl?: string; // Optional logo image
+        initials: string; // Fallback for missing logo
+    };
+    category: BlogCategory;
+    submittedDate: string; // ISO 8601 format
+    status: BlogStatus;
+}
+
+export interface BlogModerationState {
+    activeTab: BlogStatus;
+    searchQuery: string;
+    categoryFilter: BlogCategory | null;
+    dateRange: {
+        start: Date | null;
+        end: Date | null;
+    };
+    pagination: {
+        currentPage: number;
+        itemsPerPage: number;
+        totalRecords: number;
+    };
+}
+
+export interface DateRange {
+    start: Date | null;
+    end: Date | null;
+}

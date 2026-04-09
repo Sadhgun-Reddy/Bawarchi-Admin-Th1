@@ -10,6 +10,7 @@ import { PendingApprovalsPage } from '../pages/caterers/pending/PendingApprovals
 import { CatererReviewPage } from '../pages/caterers/review/CatererReviewPage';
 import { CatererComplaintsPage } from '../pages/caterers/complaints/CatererComplaintsPage';
 import { MenuModerationPage } from '../pages/moderation/MenuModerationPage';
+import { OffersModerationPage } from '../pages/moderation/OffersModerationPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
 
 // We map out the requested paths:
@@ -70,6 +71,10 @@ export const routes: RouteObject[] = [
             {
                 path: 'moderation/menu',
                 element: <MenuModerationPage />
+            },
+            {
+                path: 'moderation/offers',
+                element: <OffersModerationPage />
             },
             // Add showcase or other routes here later
             {

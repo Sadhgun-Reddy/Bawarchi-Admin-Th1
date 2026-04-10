@@ -54,13 +54,12 @@ export const PendingApprovalsPage: React.FC = () => {
     };
 
     const handleExport = () => {
-        console.log("Exporting dataset...");
         // In a real implementation: triggers CSV generation
     };
 
     const handleReview = (appId: string) => {
-        console.log(`Triggering review protocol for ${appId}`);
         // Typically opens a review modal or navigates to details
+        void appId;
     };
 
     // Filter Logic

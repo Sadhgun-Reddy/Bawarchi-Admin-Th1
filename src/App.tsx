@@ -6,7 +6,7 @@ import { routes } from './routes';
 
 const App: React.FC = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for easy testing
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to false for security
 
     // Process our route dictionary mapping
     const routing = useRoutes(routes);

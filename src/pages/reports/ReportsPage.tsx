@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeContext } from '../../components/ThemeProvider';
 import { ReportGenerator } from './ReportGenerator';
 import { RecentExportsHistory } from './RecentExportsHistory';

@@ -50,7 +50,7 @@ export const EnquiriesHistoryTable: React.FC<EnquiriesHistoryTableProps> = ({ re
                         </tr>
                     </thead>
                     <tbody>
-                        {records.map((record, i) => (
+                        {records.map((record) => (
                             <tr
                                 key={record.id}
                                 className={`group

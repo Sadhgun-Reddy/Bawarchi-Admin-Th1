@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExportFormat, ReportConfig } from './ReportsPage';
+import { ExportFormat } from './ReportsPage';
+export interface ReportConfig { category: string; timeRange: string; format: ExportFormat; includeArchived: boolean; }
 
 interface ReportGeneratorProps {
     onGenerate: (config: ReportConfig) => void;

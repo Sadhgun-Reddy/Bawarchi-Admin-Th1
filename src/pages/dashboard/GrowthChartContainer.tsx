@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from '../../components/ThemeProvider';
-import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const dataDaily = [

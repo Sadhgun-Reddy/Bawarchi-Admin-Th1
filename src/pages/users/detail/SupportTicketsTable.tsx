@@ -58,7 +58,7 @@ export const SupportTicketsTable: React.FC<SupportTicketsTableProps> = ({ record
                         </tr>
                     </thead>
                     <tbody>
-                        {records.map((record, i) => (
+                        {records.map((record) => (
                             <tr
                                 key={record.id}
                                 className={`group

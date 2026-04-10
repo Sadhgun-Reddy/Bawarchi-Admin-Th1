@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import fc from 'fast-check';
 import React from 'react';
 import { BlogStatus } from '../../pages/moderation/types';

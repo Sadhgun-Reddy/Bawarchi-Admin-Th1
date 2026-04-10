@@ -31,12 +31,28 @@ const navGroups: NavGroupType[] = [
         ]
     },
     {
+        id: 'grp-food-rescue',
+        title: 'Food Rescue',
+        items: [
+            { id: 'nav-food-matching', label: 'Matching Board', path: '/admin/food-rescue/matching', icon: 'hub' },
+            { id: 'nav-food-requests', label: 'Rescue Requests', path: '/admin/food-rescue/requests', icon: 'volunteer_activism' },
+        ]
+    },
+    {
         id: 'grp-sys',
         title: 'System & Analytics',
         items: [
             { id: 'nav-users', label: 'User Management', path: '/admin/users', icon: 'manage_accounts' },
             { id: 'nav-reports', label: 'Reports', path: '/admin/reports', icon: 'lab_profile' },
             { id: 'nav-logs', label: 'Audit Logs', path: '/admin/audit-logs', icon: 'manage_search' },
+        ]
+    },
+    {
+        id: 'grp-settings',
+        title: 'System Config',
+        items: [
+            { id: 'nav-settings-platform', label: 'Platform Settings', path: '/admin/settings/platform', icon: 'tune' },
+            { id: 'nav-settings-roles', label: 'Roles & Permissions', path: '/admin/settings/roles', icon: 'security' },
         ]
     }
 ];

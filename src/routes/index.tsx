@@ -14,6 +14,11 @@ import { OffersModerationPage } from '../pages/moderation/OffersModerationPage';
 import { BlogModerationPage } from '../pages/moderation/BlogModerationPage';
 import { BlogReviewPage } from '../pages/moderation/blog/BlogReviewPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
+import { PlatformSettingsPage } from '../pages/settings/PlatformSettingsPage';
+import { RolesPermissionsPage } from '../pages/settings/roles/RolesPermissionsPage';
+import { MatchingBoardPage } from '../pages/food-rescue/matching/MatchingBoardPage';
+import { FoodRescueRequestsPage } from '../pages/food-rescue/FoodRescueRequestsPage';
+import { RequestDetailPage } from '../pages/food-rescue/detail/RequestDetailPage';
 
 // We map out the requested paths:
 // /admin/dashboard -> DashboardOverview
@@ -85,6 +90,26 @@ export const routes: RouteObject[] = [
             {
                 path: 'moderation/blog/:postId',
                 element: <BlogReviewPage />
+            },
+            {
+                path: 'settings/platform',
+                element: <PlatformSettingsPage />
+            },
+            {
+                path: 'settings/roles',
+                element: <RolesPermissionsPage />
+            },
+            {
+                path: 'food-rescue/matching',
+                element: <MatchingBoardPage />
+            },
+            {
+                path: 'food-rescue/requests',
+                element: <FoodRescueRequestsPage />
+            },
+            {
+                path: 'food-rescue/requests/:id',
+                element: <RequestDetailPage />
             },
             // Add showcase or other routes here later
             {

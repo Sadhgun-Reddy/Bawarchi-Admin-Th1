@@ -87,13 +87,10 @@ export interface BlogPostSubmission {
 }
 
 export interface BlogModerationState {
-    activeTab: BlogStatus;
+    activeTab: ModerationStatus | 'HISTORY';
     searchQuery: string;
     categoryFilter: BlogCategory | null;
-    dateRange: {
-        start: Date | null;
-        end: Date | null;
-    };
+    dateRange: DateRange;
     pagination: {
         currentPage: number;
         itemsPerPage: number;

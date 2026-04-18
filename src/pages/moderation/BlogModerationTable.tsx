@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BlogPostSubmission, BlogCategory, BlogStatus } from './types';
+import { BlogPostSubmission, BlogCategory, ModerationStatus } from './types';
 import { ReviewAction } from './ReviewAction';
 
 interface BlogModerationTableProps {
     data: BlogPostSubmission[];
-    activeTab: BlogStatus;
+    activeTab: ModerationStatus | 'HISTORY';
     onReviewPost: (postId: string) => void;
     isDark: boolean;
 }

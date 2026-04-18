@@ -41,10 +41,11 @@ export const UserManagementPage: React.FC = () => {
     const rowsPerPage = 5;
 
     const filteredUsers = useMemo(() => {
+        const lowerQuery = searchQuery.toLowerCase();
         return users.filter(user => {
-            const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                user.email.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesSearch = user.name.toLowerCase().includes(lowerQuery) ||
+                user.id.toLowerCase().includes(lowerQuery) ||
+                user.email.toLowerCase().includes(lowerQuery);
             const matchesRole = roleFilter === 'all' || user.role === roleFilter;
             const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
             return matchesSearch && matchesRole && matchesStatus;

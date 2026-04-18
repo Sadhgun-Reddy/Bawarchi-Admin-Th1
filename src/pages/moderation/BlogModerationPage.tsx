@@ -5,7 +5,7 @@ import { ModerationTabs } from './ModerationTabs';
 import { BlogModerationFilterBar } from './BlogModerationFilterBar';
 import { BlogModerationTable } from './BlogModerationTable';
 import { ModerationPagination } from './ModerationPagination';
-import { BlogPostSubmission, BlogModerationState } from './types';
+import { BlogPostSubmission, BlogModerationState, ModerationStatus, BlogCategory, DateRange } from './types';
 import { useNavigate } from 'react-router-dom';
 
 // Mock Data Source
@@ -81,7 +81,7 @@ export const BlogModerationPage: React.FC = () => {
         setTimeout(() => setIsLoading(false), 800);
     };
 
-    const handleTabChange = (tab: any) => {
+    const handleTabChange = (tab: ModerationStatus | 'HISTORY') => {
         setState(prev => ({
             ...prev,
             activeTab: tab,
@@ -98,7 +98,7 @@ export const BlogModerationPage: React.FC = () => {
         }));
     };
 
-    const handleCategoryChange = (category: any) => {
+    const handleCategoryChange = (category: BlogCategory | null) => {
         setState(prev => ({
             ...prev,
             categoryFilter: category,
@@ -106,7 +106,7 @@ export const BlogModerationPage: React.FC = () => {
         }));
     };
 
-    const handleDateRangeChange = (range: any) => {
+    const handleDateRangeChange = (range: DateRange) => {
         setState(prev => ({
             ...prev,
             dateRange: range,
@@ -128,7 +128,12 @@ export const BlogModerationPage: React.FC = () => {
 
     const filteredData = useMemo(() => {
         return MOCK_BLOG_POSTS.filter(post => {
-            const matchTab = post.status === state.activeTab;
+            let matchTab = false;
+            if (state.activeTab === 'HISTORY') {
+                matchTab = post.status === 'APPROVED' || post.status === 'REJECTED';
+            } else {
+                matchTab = post.status === state.activeTab;
+            }
 
             const searchLower = state.searchQuery.toLowerCase();
             const matchSearch = searchLower === '' ||
@@ -166,7 +171,7 @@ export const BlogModerationPage: React.FC = () => {
             <div className="relative z-10 max-w-7xl mx-auto flex flex-col gap-6 h-full">
                 <ModerationHeader onRefresh={handleRefresh} isDark={isDark} />
                 <div className="flex flex-col gap-0 w-full mt-2">
-                    <ModerationTabs activeTab={state.activeTab as any} onTabChange={handleTabChange as any} counts={counts as any} isDark={isDark} />
+                    <ModerationTabs activeTab={state.activeTab} onTabChange={handleTabChange} counts={counts} isDark={isDark} />
                     <div className="flex flex-col shrink-0 mt-2 relative">
                         {isLoading && (
                             <div className="absolute inset-0 z-50 bg-black/10 backdrop-blur-sm rounded-sm flex items-center justify-center">
@@ -176,13 +181,13 @@ export const BlogModerationPage: React.FC = () => {
                         <BlogModerationFilterBar
                             searchQuery={state.searchQuery}
                             onSearchChange={handleSearchChange}
-                            categoryFilter={state.categoryFilter as any}
-                            onCategoryChange={handleCategoryChange as any}
-                            dateRange={state.dateRange as any}
-                            onDateRangeChange={handleDateRangeChange as any}
+                            categoryFilter={state.categoryFilter}
+                            onCategoryChange={handleCategoryChange}
+                            dateRange={state.dateRange}
+                            onDateRangeChange={handleDateRangeChange}
                             pagination={state.pagination}
                             isDark={isDark} />
-                        <BlogModerationTable data={paginatedData as any} activeTab={state.activeTab as any} onReviewPost={handleReviewPost as any} isDark={isDark} />
+                        <BlogModerationTable data={paginatedData} activeTab={state.activeTab} onReviewPost={handleReviewPost} isDark={isDark} />
                         <ModerationPagination
                             currentPage={state.pagination.currentPage} itemsPerPage={state.pagination.itemsPerPage}
                             totalRecords={state.pagination.totalRecords} onPageChange={handlePageChange} isDark={isDark}

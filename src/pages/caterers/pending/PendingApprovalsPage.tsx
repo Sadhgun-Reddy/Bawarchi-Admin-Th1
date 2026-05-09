@@ -90,12 +90,22 @@ export const PendingApprovalsPage: React.FC = () => {
 
     // Derive Badge Counts from raw data
     const counts = useMemo(() => {
-        return {
-            ALL: MOCK_APPLICATIONS.length,
-            PENDING: MOCK_APPLICATIONS.filter(a => ['PENDING', 'UNDER_REVIEW'].includes(a.status)).length,
-            ONBOARDED: MOCK_APPLICATIONS.filter(a => a.status === 'ONBOARDED').length,
-            REJECTED: MOCK_APPLICATIONS.filter(a => a.status === 'REJECTED').length,
-        };
+        return MOCK_APPLICATIONS.reduce((acc, a) => {
+            acc.ALL++;
+            if (a.status === 'PENDING' || a.status === 'UNDER_REVIEW') {
+                acc.PENDING++;
+            } else if (a.status === 'ONBOARDED') {
+                acc.ONBOARDED++;
+            } else if (a.status === 'REJECTED') {
+                acc.REJECTED++;
+            }
+            return acc;
+        }, {
+            ALL: 0,
+            PENDING: 0,
+            ONBOARDED: 0,
+            REJECTED: 0,
+        });
     }, []);
 
     // Update derived total items

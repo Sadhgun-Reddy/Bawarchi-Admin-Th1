@@ -127,6 +127,7 @@ export const BlogModerationPage: React.FC = () => {
 
 
     const filteredData = useMemo(() => {
+        const searchLower = state.searchQuery.toLowerCase();
         return MOCK_BLOG_POSTS.filter(post => {
             let matchTab = false;
             if (state.activeTab === 'HISTORY') {
@@ -135,7 +136,6 @@ export const BlogModerationPage: React.FC = () => {
                 matchTab = post.status === state.activeTab;
             }
 
-            const searchLower = state.searchQuery.toLowerCase();
             const matchSearch = searchLower === '' ||
                 post.id.toLowerCase().includes(searchLower) ||
                 post.title.toLowerCase().includes(searchLower) ||
@@ -148,10 +148,10 @@ export const BlogModerationPage: React.FC = () => {
     }, [state.activeTab, state.searchQuery, state.categoryFilter]);
 
     const counts = useMemo(() => {
-        return {
-            pending: MOCK_BLOG_POSTS.filter(s => s.status === 'PENDING').length,
-            flagged: 0
-        };
+        return MOCK_BLOG_POSTS.reduce((acc, s) => {
+            if (s.status === 'PENDING') acc.pending++;
+            return acc;
+        }, { pending: 0, flagged: 0 });
     }, []);
 
     useEffect(() => {

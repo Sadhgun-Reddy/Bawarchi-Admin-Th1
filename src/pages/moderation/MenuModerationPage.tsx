@@ -109,6 +109,7 @@ export const MenuModerationPage: React.FC = () => {
 
     // Derived State (Filtering logic)
     const filteredData = useMemo(() => {
+        const searchLower = state.searchQuery.toLowerCase();
         return MOCK_SUBMISSIONS.filter(sub => {
             // 1. Tab Status Match
             let matchTab = false;
@@ -119,7 +120,6 @@ export const MenuModerationPage: React.FC = () => {
             }
 
             // 2. Fuzzy Search Match
-            const searchLower = state.searchQuery.toLowerCase();
             const matchSearch = searchLower === '' ||
                 sub.id.toLowerCase().includes(searchLower) ||
                 sub.menuName.toLowerCase().includes(searchLower) ||
@@ -131,10 +131,11 @@ export const MenuModerationPage: React.FC = () => {
 
     // Derived Counts for Tabs
     const counts = useMemo(() => {
-        return {
-            pending: MOCK_SUBMISSIONS.filter(s => s.status === 'PENDING').length,
-            flagged: MOCK_SUBMISSIONS.filter(s => s.status === 'FLAGGED').length
-        };
+        return MOCK_SUBMISSIONS.reduce((acc, s) => {
+            if (s.status === 'PENDING') acc.pending++;
+            else if (s.status === 'FLAGGED') acc.flagged++;
+            return acc;
+        }, { pending: 0, flagged: 0 });
     }, []);
 
     // Sync Pagination totalRecords

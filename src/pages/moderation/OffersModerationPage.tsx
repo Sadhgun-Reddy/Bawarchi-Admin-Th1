@@ -95,7 +95,10 @@ export const OffersModerationPage: React.FC = () => {
     }, [state.activeTab]);
 
     const pendingCount = useMemo(() => {
-        return MOCK_OFFERS.filter(offer => offer.status === 'PENDING').length;
+        return MOCK_OFFERS.reduce((acc, offer) => {
+            if (offer.status === 'PENDING') return acc + 1;
+            return acc;
+        }, 0);
     }, []);
 
     // Sync Pagination

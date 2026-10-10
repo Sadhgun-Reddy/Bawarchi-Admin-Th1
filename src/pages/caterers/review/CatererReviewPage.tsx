@@ -57,8 +57,7 @@ export const CatererReviewPage: React.FC = () => {
         setVerificationState(prev => ({ ...prev, remarks }));
     };
 
-    const handleDocumentView = (docId: string, url: string) => {
-        console.log(`Opening document ${docId} from ${url}`);
+    const handleDocumentView = (_docId: string, _url: string) => {
         // Will mount a document viewing modal
     };
 

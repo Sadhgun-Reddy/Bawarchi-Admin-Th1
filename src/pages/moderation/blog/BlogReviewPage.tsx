@@ -27,8 +27,7 @@ export const BlogReviewPage: React.FC = () => {
         status: 'PENDING'
     };
 
-    const handleAction = (action: string) => {
-        console.log(`Action: ${action} for post ${MOCK_POST.id}`);
+    const handleAction = (_action: string) => {
         navigate('/admin/moderation/blog');
     };
 

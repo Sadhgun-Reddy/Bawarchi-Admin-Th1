@@ -35,7 +35,6 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path="/login" element={
                             <LoginPage onLoginSuccess={(token) => {
-                                console.log('Logged in with token:', token);
                                 setIsAuthenticated(true);
                             }} />
                         } />

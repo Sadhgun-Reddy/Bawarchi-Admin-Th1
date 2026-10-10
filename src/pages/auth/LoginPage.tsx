@@ -16,8 +16,6 @@ export const LoginPage: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('--- INITIALIZING SECURE LOGIN ---');
-        console.log({ email, password, rememberMe });
         // Temporary test token call
         if (onLoginSuccess) {
             onLoginSuccess('dummy_token_123');

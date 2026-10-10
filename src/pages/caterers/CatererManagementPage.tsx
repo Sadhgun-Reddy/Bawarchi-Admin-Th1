@@ -53,13 +53,16 @@ export const CatererManagementPage: React.FC = () => {
     };
 
     const filteredCaterers = useMemo(() => {
+        const query = state.searchQuery.toLowerCase();
         return MOCK_CATERERS.filter(caterer => {
             const matchesTab = state.activeTab === 'ALL' || caterer.status === state.activeTab;
-            const matchesSearch = state.searchQuery === '' ||
-                caterer.businessName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                caterer.id.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                caterer.location.toLowerCase().includes(state.searchQuery.toLowerCase());
-            return matchesTab && matchesSearch;
+            if (!matchesTab) return false;
+
+            if (query === '') return true;
+
+            return caterer.businessName.toLowerCase().includes(query) ||
+                caterer.id.toLowerCase().includes(query) ||
+                caterer.location.toLowerCase().includes(query);
         });
     }, [state.activeTab, state.searchQuery]);
 
@@ -73,12 +76,21 @@ export const CatererManagementPage: React.FC = () => {
     }, [filteredCaterers, state.pagination.currentPage, state.pagination.rowsPerPage]);
 
     const statsCounts = useMemo(() => {
+        const initialCounts: Record<CatererStatus, number> = {
+            ACTIVE: 0,
+            PENDING: 0,
+            REJECTED: 0,
+            ARCHIVED: 0
+        };
+
+        const counts = MOCK_CATERERS.reduce((acc, caterer) => {
+            acc[caterer.status]++;
+            return acc;
+        }, initialCounts);
+
         return {
             ALL: MOCK_CATERERS.length,
-            ACTIVE: MOCK_CATERERS.filter(c => c.status === 'ACTIVE').length,
-            PENDING: MOCK_CATERERS.filter(c => c.status === 'PENDING').length,
-            REJECTED: MOCK_CATERERS.filter(c => c.status === 'REJECTED').length,
-            ARCHIVED: MOCK_CATERERS.filter(c => c.status === 'ARCHIVED').length,
+            ...counts,
         };
     }, []);
 

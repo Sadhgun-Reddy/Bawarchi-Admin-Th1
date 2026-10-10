@@ -34,7 +34,7 @@ const App: React.FC = () => {
                 <div className="pointer-events-auto h-full">
                     <Routes>
                         <Route path="/login" element={
-                            <LoginPage onLoginSuccess={(token) => {
+                            <LoginPage onLoginSuccess={(_token) => {
                                 setIsAuthenticated(true);
                             }} />
                         } />

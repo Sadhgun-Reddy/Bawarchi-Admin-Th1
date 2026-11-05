@@ -22,6 +22,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarCollap
             <div className="flex items-center gap-4">
                 <button
                     onClick={onToggleSidebar}
+                    aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                     className={`p-2 rounded-sm transition-colors ${isDark ? 'hover:bg-white/10 text-text-primary' : 'hover:bg-gray-200 text-black sharp-corners'}`}
                 >
                     <span className="material-symbols-outlined text-[24px]">
@@ -63,6 +64,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarCollap
                         <input
                             type="text"
                             placeholder="Search..."
+                            aria-label="Search"
                             className="bg-transparent border-none outline-none w-full text-sm placeholder-gray-500 font-mono"
                             onFocus={() => setIsSearchFocused(true)}
                             onBlur={() => setIsSearchFocused(false)}
@@ -78,6 +80,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarCollap
                 <button
                     onClick={toggleTheme}
                     title="Toggle Theme"
+                    aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
                     className={`p-2 rounded-sm transition-all focus:outline-none flex items-center justify-center ${isDark ? 'text-gray-400 hover:text-primary hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-gray-100 sharp-corners'
                         }`}
                 >
@@ -87,7 +90,9 @@ export const TopBar: React.FC<TopBarProps> = ({ onToggleSidebar, isSidebarCollap
                 </button>
 
                 {/* Notifications */}
-                <button className={`relative p-2 rounded-sm transition-colors focus:outline-none flex items-center justify-center ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-gray-100 sharp-corners'
+                <button
+                    aria-label="View notifications"
+                    className={`relative p-2 rounded-sm transition-colors focus:outline-none flex items-center justify-center ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-gray-100 sharp-corners'
                     }`}>
                     <span className="material-symbols-outlined text-[20px]">notifications</span>
                     <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-danger border border-surface"></span>

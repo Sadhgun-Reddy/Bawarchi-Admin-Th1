@@ -64,6 +64,7 @@ export const PendingApprovalsPage: React.FC = () => {
 
     // Filter Logic
     const filteredData = useMemo(() => {
+        const searchLower = state.searchQuery.toLowerCase();
         return MOCK_APPLICATIONS.filter(app => {
             // 1. Tab Filtering (UNDER_REVIEW belongs in PENDING tab for now, or just exact match)
             // Let's assume PENDING tab shows both PENDING and UNDER_REVIEW
@@ -73,10 +74,10 @@ export const PendingApprovalsPage: React.FC = () => {
             else matchesTab = app.status === state.activeTab;
 
             // 2. Search fuzzy matching
-            const matchesSearch = state.searchQuery === '' ||
-                app.appId.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                app.businessName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-                app.ownerName.toLowerCase().includes(state.searchQuery.toLowerCase());
+            const matchesSearch = searchLower === '' ||
+                app.appId.toLowerCase().includes(searchLower) ||
+                app.businessName.toLowerCase().includes(searchLower) ||
+                app.ownerName.toLowerCase().includes(searchLower);
 
             return matchesTab && matchesSearch;
         });

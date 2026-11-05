@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ThemeProvider, ThemeContext } from '../../components/ThemeProvider';
 
 // Test component to consume the context
@@ -122,7 +122,7 @@ describe('ThemeProvider', () => {
   });
 
   it('should update document attribute and localStorage when theme changes', () => {
-    const { rerender } = render(
+    render(
       <ThemeProvider>
         <ThemeConsumer />
       </ThemeProvider>

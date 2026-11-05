@@ -13,9 +13,27 @@ export const LoginPage: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const validateEmail = (email: string) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
+
+        if (!validateEmail(email)) {
+            setError('Invalid email format');
+            return;
+        }
+
+        if (password.length < 8) {
+            setError('Password must be at least 8 characters');
+            return;
+        }
+
         // Temporary test token call
         if (onLoginSuccess) {
             onLoginSuccess('dummy_token_123');
@@ -56,7 +74,13 @@ export const LoginPage: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                    <div className="p-3 text-sm text-center border border-red-500/50 bg-red-500/10 text-red-500 rounded-sm">
+                        {error}
+                    </div>
+                )}
+
+                <form data-testid="login-form" onSubmit={handleSubmit} className="space-y-6">
                     {/* Email / Username Field */}
                     <div className="space-y-2 relative">
                         <label className={`block text-xs uppercase tracking-widest ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>

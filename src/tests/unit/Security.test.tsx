@@ -51,4 +51,43 @@ describe('Security: Sensitive Data Exposure', () => {
 
     expect(console.log).not.toHaveBeenCalledWith(expect.stringContaining('token'));
   });
+
+  it('LoginPage prevents submission and displays error on invalid email', () => {
+    render(
+      <ThemeProvider>
+        <LoginPage onLoginSuccess={() => {}} />
+      </ThemeProvider>
+    );
+
+    const emailInput = screen.getByPlaceholderText('admin@system.local');
+    const passwordInput = screen.getByPlaceholderText('••••••••');
+
+    // The button has type="submit", which triggers the form submission
+    // However, the test environment doesn't natively enforce HTML5 validations (like type="email") during `fireEvent.click(button)`.
+    // Instead we test our custom JS validation
+    const form = screen.getByTestId('login-form')
+    fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.submit(form);
+
+    expect(screen.getByText('Invalid email format')).toBeInTheDocument();
+  });
+
+  it('LoginPage prevents submission and displays error on short password', () => {
+    render(
+      <ThemeProvider>
+        <LoginPage onLoginSuccess={() => {}} />
+      </ThemeProvider>
+    );
+
+    const emailInput = screen.getByPlaceholderText('admin@system.local');
+    const passwordInput = screen.getByPlaceholderText('••••••••');
+    const form = screen.getByTestId('login-form')
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'short' } });
+    fireEvent.submit(form);
+
+    expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
+  });
 });

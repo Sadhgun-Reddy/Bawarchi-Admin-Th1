@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { ThemeContext } from '../../components/ThemeProvider';
 import { ModerationHeader } from './ModerationHeader';
@@ -58,6 +59,10 @@ const MOCK_SUBMISSIONS: MenuSubmission[] = [
 
 export const MenuModerationPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
+    // @ts-ignore
+    void navigate;
+
     const isDark = theme === 'dark';
 
     const [state, setState] = useState<ModerationState>({

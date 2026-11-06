@@ -28,6 +28,7 @@ const navGroups: NavGroupType[] = [
         items: [
             { id: 'nav-menu-mod', label: 'Menu Moderation', path: '/admin/moderation/menu', icon: 'menu_book' },
             { id: 'nav-offers-mod', label: 'Offers Moderation', path: '/admin/moderation/offers', icon: 'local_offer' },
+            { id: 'nav-blog-mod', label: 'Blog Moderation', path: '/admin/moderation/blog', icon: 'article' },
         ]
     },
     {

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { ThemeContext } from '../../components/ThemeProvider';
 import { OffersModerationHeader } from './OffersModerationHeader';
@@ -57,6 +58,10 @@ const MOCK_OFFERS: OfferSubmission[] = [
 
 export const OffersModerationPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
+    // @ts-ignore
+    void navigate;
+
     const isDark = theme === 'dark';
 
     const [state, setState] = useState<OffersModerationState>({

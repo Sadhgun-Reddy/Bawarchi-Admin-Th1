@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useContext, useMemo } from 'react';
 
 import { ThemeContext } from '../../../components/ThemeProvider';
@@ -55,6 +56,10 @@ const MOCK_COMPLAINTS: Complaint[] = [
 
 export const CatererComplaintsPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
+    // @ts-ignore
+    void navigate;
+
     const isDark = theme === 'dark';
 
     const [activeTab, setActiveTab] = useState<'COMPLAINTS' | 'PERFORMANCE' | 'REVIEWS'>('COMPLAINTS');

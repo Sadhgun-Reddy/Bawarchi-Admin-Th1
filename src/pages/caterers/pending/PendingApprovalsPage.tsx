@@ -68,13 +68,14 @@ export const PendingApprovalsPage: React.FC = () => {
             else if (state.activeTab === 'PENDING') matchesTab = ['PENDING', 'UNDER_REVIEW'].includes(app.status);
             else matchesTab = app.status === state.activeTab;
 
+            if (!matchesTab) return false;
+
+            if (searchLower === '') return true;
+
             // 2. Search fuzzy matching
-            const matchesSearch = searchLower === '' ||
-                app.appId.toLowerCase().includes(searchLower) ||
+            return app.appId.toLowerCase().includes(searchLower) ||
                 app.businessName.toLowerCase().includes(searchLower) ||
                 app.ownerName.toLowerCase().includes(searchLower);
-
-            return matchesTab && matchesSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 

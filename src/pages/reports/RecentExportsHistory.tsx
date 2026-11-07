@@ -36,7 +36,10 @@ export const RecentExportsHistory: React.FC<RecentExportsHistoryProps> = ({ reco
                     <span className={`material-symbols-outlined ${isDark ? 'text-primary' : 'text-black'}`}>history</span>
                     <h2 className={`font-display font-medium ${isDark ? 'text-white' : 'text-black'}`}>Recent Exports</h2>
                 </div>
-                <button className={`p-1 rounded-sm transition-colors flex items-center ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-black hover:bg-gray-100 sharp-corners'}`}>
+                <button
+                    className={`p-1 rounded-sm transition-colors flex items-center ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-black hover:bg-gray-100 sharp-corners'}`}
+                    aria-label="Refresh exports"
+                >
                     <span className="material-symbols-outlined text-[18px]">refresh</span>
                 </button>
             </div>
@@ -93,17 +96,29 @@ export const RecentExportsHistory: React.FC<RecentExportsHistoryProps> = ({ reco
                                     <td className="p-4 text-right">
                                         <div className="flex items-center justify-end gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
                                             {record.status === 'READY' && (
-                                                <button className={`p-1.5 transition-colors ${isDark ? 'hover:bg-primary/20 hover:text-primary rounded-sm text-gray-400' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`} title="Download">
+                                                <button
+                                                    className={`p-1.5 transition-colors ${isDark ? 'hover:bg-primary/20 hover:text-primary rounded-sm text-gray-400' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`}
+                                                    title="Download"
+                                                    aria-label="Download export"
+                                                >
                                                     <span className="material-symbols-outlined text-[18px]">download</span>
                                                 </button>
                                             )}
                                             {record.status === 'FAILED' && (
-                                                <button className={`p-1.5 transition-colors ${isDark ? 'hover:bg-white/10 rounded-sm text-gray-400' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`} title="Retry">
+                                                <button
+                                                    className={`p-1.5 transition-colors ${isDark ? 'hover:bg-white/10 rounded-sm text-gray-400' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`}
+                                                    title="Retry"
+                                                    aria-label="Retry export"
+                                                >
                                                     <span className="material-symbols-outlined text-[18px]">replay</span>
                                                 </button>
                                             )}
 
-                                            <button className={`p-1.5 transition-colors ${isDark ? 'hover:bg-danger/20 hover:text-danger rounded-sm text-gray-400' : 'hover:bg-red-100 hover:text-red-600 sharp-corners text-gray-600'}`} title="Delete">
+                                            <button
+                                                className={`p-1.5 transition-colors ${isDark ? 'hover:bg-danger/20 hover:text-danger rounded-sm text-gray-400' : 'hover:bg-red-100 hover:text-red-600 sharp-corners text-gray-600'}`}
+                                                title="Delete"
+                                                aria-label="Delete export"
+                                            >
                                                 <span className="material-symbols-outlined text-[18px]">delete</span>
                                             </button>
                                         </div>

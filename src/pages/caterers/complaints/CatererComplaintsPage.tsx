@@ -8,7 +8,7 @@ import { ManagementTabs } from './ManagementTabs';
 import { ComplaintFilterBar } from './ComplaintFilterBar';
 import { ComplaintTable } from './ComplaintTable';
 import { ComplaintPagination } from './ComplaintPagination';
-import {  Complaint, ComplaintsState, ComplaintFilters } from './types';
+import { ComplaintsState, ComplaintFilters } from './types';
 
 // Mock Data
 
@@ -68,14 +68,16 @@ export const CatererComplaintsPage: React.FC = () => {
         const searchLower = state.filters.searchQuery.toLowerCase();
         return MOCK_COMPLAINTS.filter(complaint => {
             const matchStatus = state.filters.status === 'all' || complaint.status === state.filters.status;
-            const matchIssue = state.filters.issueType === 'all' || complaint.issue.type === state.filters.issueType;
+            if (!matchStatus) return false;
 
-            const matchSearch = searchLower === '' ||
-                complaint.id.toLowerCase().includes(searchLower) ||
+            const matchIssue = state.filters.issueType === 'all' || complaint.issue.type === state.filters.issueType;
+            if (!matchIssue) return false;
+
+            if (searchLower === '') return true;
+
+            return complaint.id.toLowerCase().includes(searchLower) ||
                 complaint.catererName.toLowerCase().includes(searchLower) ||
                 complaint.issue.description.toLowerCase().includes(searchLower);
-
-            return matchStatus && matchIssue && matchSearch;
         });
     }, [state.filters]);
 

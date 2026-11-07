@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from '../../components/ThemeProvider';
 import { motion } from 'framer-motion';
 import { GrowthChartContainer } from './GrowthChartContainer';
@@ -9,8 +9,29 @@ export const Dashboard: React.FC = () => {
     const { theme } = useContext(ThemeContext);
     const isDark = theme === 'dark';
 
+
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [incidentToast, setIncidentToast] = useState(false);
+
+    useEffect(() => {
+        if (incidentToast) {
+            const t = setTimeout(() => setIncidentToast(false), 3000);
+            return () => clearTimeout(t);
+        }
+    }, [incidentToast]);
+
+    const handleRefresh = () => {
+        setIsRefreshing(true);
+        setTimeout(() => setIsRefreshing(false), 1000);
+    };
+
     return (
         <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
+            {incidentToast && (
+                <div className={`fixed bottom-4 right-4 p-4 z-50 rounded shadow-lg ${isDark ? 'bg-green-500/20 border border-green-500 text-green-400' : 'bg-green-100 border border-green-200 text-green-800'}`}>
+                    Incident report initiated successfully.
+                </div>
+            )}
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -23,15 +44,15 @@ export const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${isDark
+                    <button onClick={handleRefresh} disabled={isRefreshing} className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${isDark
                         ? 'bg-transparent border border-gray-700 text-gray-300 hover:bg-white/5 hover:text-white rounded-md'
                         : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 sharp-corners'
                         }`}>
                         <span className="material-symbols-outlined text-[18px]">refresh</span>
-                        Refresh Data
+                        {isRefreshing ? 'Refreshing...' : 'Refresh Data'}
                     </button>
 
-                    <button className={`flex items-center gap-2 px-4 py-2 text-sm font-bold transition-all ${isDark
+                    <button onClick={() => setIncidentToast(true)} className={`flex items-center gap-2 px-4 py-2 text-sm font-bold transition-all ${isDark
                         ? 'bg-primary/10 border border-primary text-primary hover:bg-primary/20 shadow-[0_0_15px_rgba(139,92,246,0.15)] rounded-md'
                         : 'bg-black text-white hover:bg-gray-800 sharp-corners'
                         }`}>

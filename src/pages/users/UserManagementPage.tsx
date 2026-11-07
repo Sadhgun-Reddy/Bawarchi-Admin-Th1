@@ -3,40 +3,20 @@ import { ThemeContext } from '../../components/ThemeProvider';
 import { UserStatsGrid } from './UserStatsGrid';
 import { UserFilterBar } from './UserFilterBar';
 import { UserTable } from './UserTable';
+import { useMockData } from '../../context/MockDataContext';
 
 export type UserRole = 'ADMIN' | 'VENDOR' | 'CUSTOMER';
 export type UserStatus = 'VERIFIED' | 'ACTIVE' | 'PENDING' | 'INACTIVE' | 'SUSPENDED';
 
-export interface User {
-    id: string;
-    avatarUrl?: string;
-    name: string;
-    email: string;
-    role: UserRole;
-    registrationDate: string;
-    status: UserStatus;
-}
-
-// Mock Data
-const MOCK_USERS: User[] = [
-    { id: 'USR-9021', name: 'Michael Ross', email: 'michael.ross@example.com', role: 'ADMIN', registrationDate: new Date(Date.now() - 86400000 * 30).toISOString(), status: 'VERIFIED' },
-    { id: 'USR-9022', name: 'Sarah Connor', email: 'sarah.c@techcorp.com', role: 'VENDOR', registrationDate: new Date(Date.now() - 86400000 * 15).toISOString(), status: 'ACTIVE' },
-    { id: 'USR-9023', name: 'David Bowman', email: 'dbowman@discovery.com', role: 'CUSTOMER', registrationDate: new Date(Date.now() - 86400000 * 2).toISOString(), status: 'PENDING' },
-    { id: 'USR-9024', name: 'Ellen Ripley', email: 'eripley@weyland.com', role: 'VENDOR', registrationDate: new Date(Date.now() - 86400000 * 120).toISOString(), status: 'SUSPENDED' },
-    { id: 'USR-9025', name: 'James Holden', email: 'jholden@rocinante.com', role: 'CUSTOMER', registrationDate: new Date().toISOString(), status: 'ACTIVE' },
-    { id: 'USR-9026', name: 'Amos Burton', email: 'aburton@baltimore.com', role: 'CUSTOMER', registrationDate: new Date().toISOString(), status: 'INACTIVE' },
-];
-
 export const UserManagementPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const { users, setUsers } = useMockData();
     const isDark = theme === 'dark';
 
-    const [users] = useState<User[]>(MOCK_USERS);
     const [searchQuery, setSearchQuery] = useState('');
     const [roleFilter, setRoleFilter] = useState<UserRole | 'all'>('all');
     const [statusFilter, setStatusFilter] = useState<UserStatus | 'all'>('all');
 
-    // Pagination (simplified for demo)
     const [page, setPage] = useState(1);
     const rowsPerPage = 5;
 
@@ -57,9 +37,48 @@ export const UserManagementPage: React.FC = () => {
         return filteredUsers.slice(start, start + rowsPerPage);
     }, [filteredUsers, page, rowsPerPage]);
 
+    const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+    const [newUserEmail, setNewUserEmail] = useState('');
+
+    const handleInvite = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newUserEmail) return;
+        setUsers(prev => [{
+            id: `USR-${9000 + prev.length + 1}`,
+            name: 'Pending User',
+            email: newUserEmail,
+            role: 'VENDOR',
+            registrationDate: new Date().toISOString(),
+            status: 'PENDING'
+        }, ...prev]);
+        setNewUserEmail('');
+        setIsInviteModalOpen(false);
+    };
+
     return (
         <div className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6 w-full">
-            {/* Page Header */}
+            {isInviteModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className={`p-6 w-full max-w-md ${isDark ? 'bg-[#050505] border border-white/10' : 'bg-white border border-black'}`}>
+                        <h2 className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Invite New User</h2>
+                        <form onSubmit={handleInvite}>
+                            <input
+                                type="email"
+                                required
+                                value={newUserEmail}
+                                onChange={e => setNewUserEmail(e.target.value)}
+                                placeholder="Email address"
+                                className={`w-full p-2 mb-4 border ${isDark ? 'bg-black/50 border-white/20 text-white outline-none focus:border-[#d006f9]' : 'border-black outline-none focus:ring-1 focus:ring-black'}`}
+                            />
+                            <div className="flex justify-end gap-2">
+                                <button type="button" onClick={() => setIsInviteModalOpen(false)} className={`px-4 py-2 ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'}`}>Cancel</button>
+                                <button type="submit" className={`px-4 py-2 ${isDark ? 'bg-[#d006f9] text-white font-bold' : 'bg-black text-white font-bold'}`}>Send Invite</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${isDark ? 'text-white' : 'text-black'}`}>
                 <div>
                     <h1 className="font-display text-2xl font-bold tracking-tight">User Management</h1>
@@ -67,7 +86,7 @@ export const UserManagementPage: React.FC = () => {
                         Manage roles, statuses, and profiles across the system.
                     </p>
                 </div>
-                <button className={`px-4 py-2 font-bold transition-all flex items-center justify-center gap-2 group active:scale-95 ${isDark
+                <button onClick={() => setIsInviteModalOpen(true)} className={`px-4 py-2 font-bold transition-all flex items-center justify-center gap-2 group active:scale-95 ${isDark
                     ? 'bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-white shadow-glow rounded-sm'
                     : 'bg-black text-white sharp-corners hover:bg-gray-800'
                     }`}>
@@ -76,10 +95,8 @@ export const UserManagementPage: React.FC = () => {
                 </button>
             </div>
 
-            {/* Stats Grid */}
             <UserStatsGrid isDark={isDark} />
 
-            {/* Main Data Container */}
             <div className="flex flex-col gap-4">
                 <UserFilterBar
                     isDark={isDark}

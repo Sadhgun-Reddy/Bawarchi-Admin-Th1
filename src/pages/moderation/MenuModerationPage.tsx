@@ -6,58 +6,14 @@ import { ModerationTabs } from './ModerationTabs';
 import { ModerationFilterBar } from './ModerationFilterBar';
 import { MenuModerationTable } from './MenuModerationTable';
 import { ModerationPagination } from './ModerationPagination';
-import { MenuSubmission, ModerationState, ModerationStatus } from './types';
+import {  ModerationState, ModerationStatus } from './types';
 
 // Mock Data Source
-const MOCK_SUBMISSIONS: MenuSubmission[] = [
-    {
-        id: '#MN-2049',
-        menuName: 'Signature Continental Buffet',
-        caterer: { name: 'Gourmet Spaces Catering', initial: 'G', indicatorColor: 'bg-emerald-400' },
-        category: 'CORPORATE',
-        itemsCount: 42,
-        submittedAt: '2025-10-15T09:30:00Z',
-        status: 'PENDING'
-    },
-    {
-        id: '#MN-2050',
-        menuName: 'Artisan Vegan Selection',
-        caterer: { name: 'Green Leaf Co.', initial: 'G', indicatorColor: 'bg-emerald-400' },
-        category: 'WEDDING',
-        itemsCount: 28,
-        submittedAt: '2025-10-14T14:15:00Z',
-        status: 'PENDING'
-    },
-    {
-        id: '#MN-2045',
-        menuName: 'Kids Birthday Special',
-        caterer: { name: 'Joyful Bites', initial: 'J', indicatorColor: 'bg-amber-400' },
-        category: 'KIDS',
-        itemsCount: 15,
-        submittedAt: '2025-10-14T10:00:00Z',
-        status: 'FLAGGED'
-    },
-    {
-        id: '#MN-2040',
-        menuName: 'Diwali Grand Feast',
-        caterer: { name: 'Spice Route Services', initial: 'S', indicatorColor: 'bg-emerald-400' },
-        category: 'FESTIVAL',
-        itemsCount: 55,
-        submittedAt: '2025-10-12T16:45:00Z',
-        status: 'APPROVED'
-    },
-    {
-        id: '#MN-2038',
-        menuName: 'Executive Box Lunches',
-        caterer: { name: 'QuickServe Meals', initial: 'Q', indicatorColor: 'bg-rose-400' },
-        category: 'CORPORATE',
-        itemsCount: 8,
-        submittedAt: '2025-10-10T09:00:00Z',
-        status: 'REJECTED'
-    }
-];
 
+
+import { useMockData } from "../../context/MockDataContext";
 export const MenuModerationPage: React.FC = () => {
+    const { menuSubmissions: MOCK_SUBMISSIONS } = useMockData();
     const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
     // @ts-ignore

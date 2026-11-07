@@ -4,11 +4,17 @@ import { useNavigate } from 'react-router-dom';
 interface ModerationHeaderProps {
     onRefresh: () => void;
     isDark: boolean;
+    title?: string;
+    description?: string;
+    onExportCSV?: () => void;
 }
 
 export const ModerationHeader: React.FC<ModerationHeaderProps> = ({
     onRefresh,
-    isDark
+    isDark,
+    title = "Menu Moderation",
+    description = "High-throughput queue for reviewing catering menu submissions.",
+    onExportCSV
 }) => {
     const navigate = useNavigate();
 
@@ -30,7 +36,7 @@ export const ModerationHeader: React.FC<ModerationHeaderProps> = ({
                     <h1 className={`text-3xl font-bold tracking-tight flex items-center gap-3
             ${isDark ? 'text-white text-shadow-[0_0_15px_#d006f9]' : 'text-black'}
           `} style={{ fontFamily: '"Space Grotesk", sans-serif' }}>
-                        Menu Moderation
+                        {title}
                         {isDark && (
                             <span className="relative flex h-3 w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5e00] opacity-75"></span>
@@ -39,7 +45,7 @@ export const ModerationHeader: React.FC<ModerationHeaderProps> = ({
                         )}
                     </h1>
                     <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        High-throughput queue for reviewing catering menu submissions.
+                        {description}
                     </p>
                 </div>
 
@@ -68,6 +74,20 @@ export const ModerationHeader: React.FC<ModerationHeaderProps> = ({
                         <span className="material-symbols-outlined text-[18px]">history</span>
                         History Log
                     </button>
+                    {onExportCSV && (
+                        <button
+                            onClick={onExportCSV}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase transition-all outline-none
+                  ${isDark
+                                    ? 'bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.3)] rounded-sm'
+                                    : 'bg-blue-600 hover:bg-blue-700 text-white sharp-corners'
+                                }
+                `}
+                        >
+                            <span className="material-symbols-outlined text-[18px]">download</span>
+                            Export CSV
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

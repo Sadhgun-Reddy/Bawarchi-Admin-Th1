@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { User, UserRole, UserStatus } from './UserManagementPage';
+import { UserRole, UserStatus } from './UserManagementPage';
+import { User } from '../../context/MockDataContext';
 
 interface UserTableProps {
     users: User[];

@@ -3,6 +3,7 @@ import { useRoutes, Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from './pages/auth/LoginPage';
 import { ThemeContext } from './components/ThemeProvider';
 import { routes } from './routes';
+import { MockDataProvider } from './context/MockDataContext';
 
 const App: React.FC = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
@@ -47,9 +48,11 @@ const App: React.FC = () => {
 
     // Authenticated user gets passed directly into the useRoutes layout
     return (
-        <div className="relative min-h-screen overflow-hidden">
-            {routing}
-        </div>
+        <MockDataProvider>
+            <div className="relative min-h-screen overflow-hidden">
+                {routing}
+            </div>
+        </MockDataProvider>
     );
 };
 

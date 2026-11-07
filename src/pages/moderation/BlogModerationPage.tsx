@@ -5,60 +5,13 @@ import { ModerationTabs } from './ModerationTabs';
 import { BlogModerationFilterBar } from './BlogModerationFilterBar';
 import { BlogModerationTable } from './BlogModerationTable';
 import { ModerationPagination } from './ModerationPagination';
-import { BlogPostSubmission, BlogModerationState, ModerationStatus, BlogCategory, DateRange } from './types';
+import { BlogModerationState, ModerationStatus, BlogCategory, DateRange } from './types';
 import { useNavigate } from 'react-router-dom';
-
-// Mock Data Source
-const MOCK_BLOG_POSTS: BlogPostSubmission[] = [
-    {
-        id: 'BLG-001',
-        title: 'Top 10 Catering Trends for 2026',
-        excerpt: 'Discover the latest trends shaping the catering industry this year...',
-        caterer: { name: 'Gourmet Spaces Catering', logoUrl: 'https://i.pravatar.cc/150?u=gourmet', initials: 'GS' },
-        category: 'TRENDS',
-        submittedDate: '2026-03-10T09:30:00Z',
-        status: 'PENDING'
-    },
-    {
-        id: 'BLG-002',
-        title: 'Food Safety Guidelines for Large Events',
-        excerpt: 'Essential safety protocols every caterer should follow...',
-        caterer: { name: 'Safe Serve Co.', initials: 'SS' },
-        category: 'SAFETY',
-        submittedDate: '2026-03-11T14:15:00Z',
-        status: 'PENDING'
-    },
-    {
-        id: 'BLG-003',
-        title: 'Signature Vegan Recipes',
-        excerpt: 'Plant-based dishes that wow your guests...',
-        caterer: { name: 'Green Leaf Catering', logoUrl: 'https://i.pravatar.cc/150?u=green', initials: 'GL' },
-        category: 'RECIPES',
-        submittedDate: '2026-03-09T10:00:00Z',
-        status: 'APPROVED'
-    },
-    {
-        id: 'BLG-004',
-        title: 'Gluten-Free Menu Planning',
-        excerpt: 'How to create delicious gluten-free options...',
-        caterer: { name: 'Healthy Bites', initials: 'HB' },
-        category: 'DIETARY',
-        submittedDate: '2026-03-08T16:45:00Z',
-        status: 'APPROVED'
-    },
-    {
-        id: 'BLG-005',
-        title: 'Starting Your Catering Business',
-        excerpt: 'A comprehensive guide for new caterers...',
-        caterer: { name: 'Business Pro Catering', logoUrl: 'https://i.pravatar.cc/150?u=business', initials: 'BP' },
-        category: 'BUSINESS',
-        submittedDate: '2026-03-07T09:00:00Z',
-        status: 'REJECTED'
-    }
-];
+import { useMockData } from '../../context/MockDataContext';
 
 export const BlogModerationPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const { blogPosts: MOCK_BLOG_POSTS } = useMockData();
     const isDark = theme === 'dark';
     const navigate = useNavigate();
 
@@ -125,7 +78,6 @@ export const BlogModerationPage: React.FC = () => {
         navigate(`/admin/moderation/blog/${id}`);
     };
 
-
     const filteredData = useMemo(() => {
         const searchLower = state.searchQuery.toLowerCase();
         return MOCK_BLOG_POSTS.filter(post => {
@@ -143,9 +95,52 @@ export const BlogModerationPage: React.FC = () => {
 
             const matchCategory = state.categoryFilter === null || post.category === state.categoryFilter;
 
-            return matchTab && matchSearch && matchCategory;
+            let matchDate = true;
+            if (state.dateRange.start || state.dateRange.end) {
+                const postDate = new Date(post.submittedDate);
+                if (state.dateRange.start && postDate < state.dateRange.start) {
+                    matchDate = false;
+                }
+                if (state.dateRange.end) {
+                    // Set end date to end of day for inclusive filtering
+                    const endOfDay = new Date(state.dateRange.end);
+                    endOfDay.setHours(23, 59, 59, 999);
+                    if (postDate > endOfDay) {
+                        matchDate = false;
+                    }
+                }
+            }
+
+            return matchTab && matchSearch && matchCategory && matchDate;
         });
-    }, [state.activeTab, state.searchQuery, state.categoryFilter]);
+    }, [state.activeTab, state.searchQuery, state.categoryFilter, state.dateRange]);
+
+    const handleExportCSV = () => {
+        const headers = ["Post ID", "Post Title", "Caterer Name", "Category", "Submitted Date", "Status"];
+        const rows = filteredData.map(post => {
+            const dateStr = new Date(post.submittedDate).toLocaleString();
+            return [
+                `"${post.id}"`,
+                `"${post.title.replace(/"/g, '""')}"`,
+                `"${post.caterer.name.replace(/"/g, '""')}"`,
+                `"${post.category}"`,
+                `"${dateStr}"`,
+                `"${post.status}"`
+            ].join(',');
+        });
+
+        const csvContent = [headers.join(','), ...rows].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        const dateStr = new Date().toISOString().split('T')[0];
+        link.setAttribute('download', `blog-moderation-${dateStr}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const counts = useMemo(() => {
         return MOCK_BLOG_POSTS.reduce((acc, s) => {
@@ -168,8 +163,22 @@ export const BlogModerationPage: React.FC = () => {
 
     return (
         <div className={`relative min-h-full w-full p-6 lg:p-8 transition-colors duration-300 ${isDark ? 'bg-[#050505]' : 'bg-[#E2E8F0]'}`}>
+            {isDark && (
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-20 z-0"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 0%, rgba(208, 6, 249, 0.15) 0%, transparent 70%)'
+                    }}
+                />
+            )}
             <div className="relative z-10 max-w-7xl mx-auto flex flex-col gap-6 h-full">
-                <ModerationHeader onRefresh={handleRefresh} isDark={isDark} />
+                <ModerationHeader
+                    onRefresh={handleRefresh}
+                    isDark={isDark}
+                    title="Blog Moderation"
+                    description="High-throughput queue for reviewing caterer-submitted blog posts."
+                    onExportCSV={handleExportCSV}
+                />
                 <div className="flex flex-col gap-0 w-full mt-2">
                     <ModerationTabs activeTab={state.activeTab} onTabChange={handleTabChange} counts={counts} isDark={isDark} />
                     <div className="flex flex-col shrink-0 mt-2 relative">

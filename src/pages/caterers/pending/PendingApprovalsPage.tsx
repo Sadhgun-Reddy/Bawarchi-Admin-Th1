@@ -4,19 +4,14 @@ import { ApprovalsHeader } from './ApprovalsHeader';
 import { LifecycleTabs } from './LifecycleTabs';
 import { ApprovalsTable } from './ApprovalsTable';
 import { PaginationFooter } from './PaginationFooter';
-import { ApprovalsState, PendingCaterer, ApprovalsTab } from './types';
+import { PendingCaterer, ApprovalsState, ApprovalsTab } from './types';
 
 // Mock Data for structural testing
-const MOCK_APPLICATIONS: PendingCaterer[] = [
-    { appId: 'APP-1092', businessName: 'Gourmet Spaces', ownerName: 'Alice Chen', location: 'San Francisco, CA', experienceYears: 5, submittedDate: '2026-10-14', status: 'PENDING' },
-    { appId: 'APP-1093', businessName: 'Fire Grill BBQ', logoUrl: 'https://i.pravatar.cc/150?u=grill', ownerName: 'Marcus Johnson', location: 'Austin, TX', experienceYears: 8, submittedDate: '2026-10-14', status: 'UNDER_REVIEW' },
-    { appId: 'APP-1094', businessName: 'Sushi Master', ownerName: 'Kenji Sato', location: 'New York, NY', experienceYears: 12, submittedDate: '2026-10-15', status: 'ONBOARDED' },
-    { appId: 'APP-1095', businessName: 'Vegan Delights', logoUrl: 'https://i.pravatar.cc/150?u=vegan', ownerName: 'Sarah Smith', location: 'Portland, OR', experienceYears: 3, submittedDate: '2026-10-16', status: 'PENDING' },
-    { appId: 'APP-1096', businessName: 'Steakhouse Elite', ownerName: 'David Brown', location: 'Chicago, IL', experienceYears: 15, submittedDate: '2026-10-16', status: 'REJECTED' },
-    { appId: 'APP-1097', businessName: 'Pasta Palace', ownerName: 'Maria Garcia', location: 'Miami, FL', experienceYears: 6, submittedDate: '2026-10-17', status: 'PENDING' },
-];
 
+
+import { useMockData } from "../../../context/MockDataContext";
 export const PendingApprovalsPage: React.FC = () => {
+    const { catererApplications: MOCK_APPLICATIONS } = useMockData();
     const { theme } = useContext(ThemeContext);
     const isDark = theme === 'dark';
 
@@ -65,7 +60,7 @@ export const PendingApprovalsPage: React.FC = () => {
     // Filter Logic
     const filteredData = useMemo(() => {
         const searchLower = state.searchQuery.toLowerCase();
-        return MOCK_APPLICATIONS.filter(app => {
+        return MOCK_APPLICATIONS.filter((app: PendingCaterer) => {
             // 1. Tab Filtering (UNDER_REVIEW belongs in PENDING tab for now, or just exact match)
             // Let's assume PENDING tab shows both PENDING and UNDER_REVIEW
             let matchesTab = false;
@@ -91,7 +86,7 @@ export const PendingApprovalsPage: React.FC = () => {
 
     // Derive Badge Counts from raw data
     const counts = useMemo(() => {
-        return MOCK_APPLICATIONS.reduce((acc, a) => {
+        return MOCK_APPLICATIONS.reduce((acc: Record<string, number>, a: PendingCaterer) => {
             acc.ALL++;
             if (a.status === 'PENDING' || a.status === 'UNDER_REVIEW') {
                 acc.PENDING++;

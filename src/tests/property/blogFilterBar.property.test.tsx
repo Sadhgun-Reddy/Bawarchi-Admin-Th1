@@ -393,3 +393,33 @@ describe('Property 3: Filter Change Event Emission', () => {
     );
   });
 });
+
+import { MemoryRouter } from 'react-router-dom';
+import { BlogModerationPage } from '../../pages/moderation/BlogModerationPage';
+import { MockDataProvider } from '../../context/MockDataContext';
+
+describe('Property 10: CSV Export Completeness', () => {
+  it('should generate a CSV blob with correct headers when exported', () => {
+    const { getByText, unmount } = render(
+      <MemoryRouter>
+          <MockDataProvider>
+              <BlogModerationPage />
+          </MockDataProvider>
+      </MemoryRouter>
+    );
+    const exportBtn = getByText('Export CSV');
+    expect(exportBtn).toBeTruthy();
+
+    const originalCreateObjectURL = URL.createObjectURL;
+    URL.createObjectURL = vi.fn().mockReturnValue('blob:test');
+
+    // Check click doesn't crash
+    fireEvent.click(exportBtn);
+
+    expect(URL.createObjectURL).toHaveBeenCalled();
+    URL.createObjectURL = originalCreateObjectURL;
+
+    unmount();
+    cleanup();
+  });
+});

@@ -8,53 +8,14 @@ import { ManagementTabs } from './ManagementTabs';
 import { ComplaintFilterBar } from './ComplaintFilterBar';
 import { ComplaintTable } from './ComplaintTable';
 import { ComplaintPagination } from './ComplaintPagination';
-import { Complaint, ComplaintsState, ComplaintFilters } from './types';
+import {  Complaint, ComplaintsState, ComplaintFilters } from './types';
 
 // Mock Data
-const MOCK_COMPLAINTS: Complaint[] = [
-    {
-        id: '#CMP-9021',
-        catererName: 'Gourmet Spaces Catering',
-        customer: { name: 'Sarah Jenkins', initials: 'SJ', avatarUrl: 'https://i.pravatar.cc/150?u=sarah' },
-        issue: { type: 'LATE_DELIVERY', description: 'Order arrived 45 mins late' },
-        date: '2025-10-15T14:30:00Z',
-        status: 'OPEN'
-    },
-    {
-        id: '#CMP-9022',
-        catererName: 'Elite Banquets',
-        customer: { name: 'Michael Chen', initials: 'MC' },
-        issue: { type: 'FOOD_QUALITY', description: 'Cold appetizers' },
-        date: '2025-10-15T09:15:00Z',
-        status: 'INVESTIGATING'
-    },
-    {
-        id: '#CMP-9023',
-        catererName: 'Spice Route Services',
-        customer: { name: 'Anita Desai', initials: 'AD', avatarUrl: 'https://i.pravatar.cc/150?u=anita' },
-        issue: { type: 'HYGIENE', description: 'Foreign object in main course' },
-        date: '2025-10-14T19:45:00Z',
-        status: 'ESCALATED'
-    },
-    {
-        id: '#CMP-9024',
-        catererName: 'Fresh Bites Corp',
-        customer: { name: 'David Smith', initials: 'DS' },
-        issue: { type: 'MISSING_ITEM', description: 'Beverages not delivered' },
-        date: '2025-10-13T12:00:00Z',
-        status: 'RESOLVED'
-    },
-    {
-        id: '#CMP-9025',
-        catererName: 'Gourmet Spaces Catering',
-        customer: { name: 'Linda Rodriguez', initials: 'LR' },
-        issue: { type: 'STAFF_BEHAVIOR', description: 'Rude serving staff' },
-        date: '2025-10-12T18:20:00Z',
-        status: 'OPEN'
-    }
-];
 
+
+import { useMockData } from "../../../context/MockDataContext";
 export const CatererComplaintsPage: React.FC = () => {
+    const { complaints: MOCK_COMPLAINTS } = useMockData();
     const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
     // @ts-ignore

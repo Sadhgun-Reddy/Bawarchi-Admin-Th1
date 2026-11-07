@@ -5,58 +5,14 @@ import { OffersModerationHeader } from './OffersModerationHeader';
 import { OffersModerationTabs } from './OffersModerationTabs';
 import { OffersDataTable } from './OffersDataTable';
 import { ModerationPagination } from './ModerationPagination';
-import { OfferSubmission, OffersModerationState, OfferStatus } from './types';
+import {  OffersModerationState, OfferStatus } from './types';
 
 // Mock Data
-const MOCK_OFFERS: OfferSubmission[] = [
-    {
-        id: '#OFF-9281',
-        title: 'Diwali Corporate Feast',
-        caterer: { name: 'Spice Route Catering', logoUrl: 'https://i.pravatar.cc/150?u=1' },
-        discount: { type: 'PERCENTAGE', value: '20% OFF' },
-        validity: 'Oct 20 - Nov 10',
-        submittedAt: '2 hrs ago',
-        status: 'PENDING'
-    },
-    {
-        id: '#OFF-9282',
-        title: 'Premium Wedding Package',
-        caterer: { name: 'Royal Bites' },
-        discount: { type: 'FIXED_PRICE', value: '$500 OFF' },
-        validity: 'Nov 01 - Dec 31',
-        submittedAt: '3 hrs ago',
-        status: 'PENDING'
-    },
-    {
-        id: '#OFF-9283',
-        title: 'Summer Getaway Party',
-        caterer: { name: 'Fresh Seasons', logoUrl: 'https://i.pravatar.cc/150?u=2' },
-        discount: { type: 'FREE_ITEM', value: 'Free Dessert Bar' },
-        validity: 'Jun 01 - Aug 31',
-        submittedAt: '1 day ago',
-        status: 'APPROVED'
-    },
-    {
-        id: '#OFF-9284',
-        title: 'Weekend Breakfast Special',
-        caterer: { name: 'Morning Glory Caters' },
-        discount: { type: 'BUNDLE', value: 'Buy 50 Get 10 Free' },
-        validity: 'Ongoing',
-        submittedAt: '5 days ago',
-        status: 'REJECTED'
-    },
-    {
-        id: '#OFF-9285',
-        title: 'Year End Gala Offer',
-        caterer: { name: 'Star Catering' },
-        discount: { type: 'PERCENTAGE', value: '15% OFF' },
-        validity: 'Dec 15 - Dec 31',
-        submittedAt: '1 week ago',
-        status: 'PENDING'
-    }
-];
 
+
+import { useMockData } from "../../context/MockDataContext";
 export const OffersModerationPage: React.FC = () => {
+    const { offers: MOCK_OFFERS } = useMockData();
     const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
     // @ts-ignore

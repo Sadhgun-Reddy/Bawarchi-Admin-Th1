@@ -5,7 +5,8 @@ import { ManagementHeader } from './ManagementHeader';
 import { StatusTabs } from './StatusTabs';
 import { CatererStatsOverview } from './CatererStatsOverview';
 import { CatererTable } from './CatererTable';
-import { Caterer, CatererManagementState, CatererStatus, CatererStats } from './types';
+import {  CatererManagementState, CatererStatus, CatererStats } from './types';
+import { useMockData } from '../../context/MockDataContext';
 
 // Mock Data
 const MOCK_STATS: CatererStats = {
@@ -15,19 +16,9 @@ const MOCK_STATS: CatererStats = {
     globalProfileViews: '124.5k'
 };
 
-const MOCK_CATERERS: Caterer[] = [
-    { id: 'BW-0012', businessName: 'Gourmet Kitchen', sinceYear: '2015', location: 'New York, NY', rating: 4.9, enquiriesCount: 342, viewCount: '12k', status: 'ACTIVE' },
-    { id: 'BW-0013', businessName: 'Pasta Palace', sinceYear: '2018', location: 'Chicago, IL', rating: 4.5, enquiriesCount: 120, viewCount: '5.2k', status: 'ACTIVE' },
-    { id: 'BW-0014', businessName: 'Spicy Bites', sinceYear: '2021', location: 'Austin, TX', rating: 4.2, enquiriesCount: 85, viewCount: '3.1k', status: 'PENDING' },
-    { id: 'BW-0015', businessName: 'Veggie Delights', sinceYear: '2019', location: 'Seattle, WA', rating: 4.7, enquiriesCount: 210, viewCount: '8.4k', status: 'ACTIVE' },
-    { id: 'BW-0016', businessName: 'BBQ Nation', sinceYear: '2012', location: 'Dallas, TX', rating: 4.6, enquiriesCount: 450, viewCount: '15.3k', status: 'REJECTED' },
-    { id: 'BW-0017', businessName: 'Sweet Tooth Bakery', sinceYear: '2020', location: 'Miami, FL', rating: 4.8, enquiriesCount: 195, viewCount: '6.7k', status: 'ARCHIVED' },
-    { id: 'BW-0018', businessName: 'Sushi Master', logoUrl: 'https://i.pravatar.cc/150?u=sushi', sinceYear: '2016', location: 'San Francisco, CA', rating: 4.9, enquiriesCount: 512, viewCount: '18k', status: 'ACTIVE' },
-    { id: 'BW-0019', businessName: 'Taco Fiesta', sinceYear: '2022', location: 'Los Angeles, CA', rating: 4.3, enquiriesCount: 45, viewCount: '1.2k', status: 'PENDING' },
-];
-
 export const CatererManagementPage: React.FC = () => {
     const { theme } = useContext(ThemeContext);
+    const { caterers } = useMockData();
     const isDark = theme === 'dark';
 
     const [state, setState] = useState<CatererManagementState>({
@@ -35,7 +26,7 @@ export const CatererManagementPage: React.FC = () => {
         searchQuery: '',
         pagination: {
             currentPage: 1,
-            totalRecords: MOCK_CATERERS.length,
+            totalRecords: caterers.length,
             rowsPerPage: 5
         }
     });
@@ -54,7 +45,7 @@ export const CatererManagementPage: React.FC = () => {
 
     const filteredCaterers = useMemo(() => {
         const query = state.searchQuery.toLowerCase();
-        return MOCK_CATERERS.filter(caterer => {
+        return caterers.filter(caterer => {
             const matchesTab = state.activeTab === 'ALL' || caterer.status === state.activeTab;
             if (!matchesTab) return false;
 
@@ -64,7 +55,7 @@ export const CatererManagementPage: React.FC = () => {
                 caterer.id.toLowerCase().includes(query) ||
                 caterer.location.toLowerCase().includes(query);
         });
-    }, [state.activeTab, state.searchQuery]);
+    }, [caterers, state.activeTab, state.searchQuery]);
 
     // Update total records after filtering for pagination
     const totalRecords = filteredCaterers.length;
@@ -83,16 +74,16 @@ export const CatererManagementPage: React.FC = () => {
             ARCHIVED: 0
         };
 
-        const counts = MOCK_CATERERS.reduce((acc, caterer) => {
+        const counts = caterers.reduce((acc, caterer) => {
             acc[caterer.status]++;
             return acc;
         }, initialCounts);
 
         return {
-            ALL: MOCK_CATERERS.length,
+            ALL: caterers.length,
             ...counts,
         };
-    }, []);
+    }, [caterers]);
 
     return (
         <div className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6 w-full min-h-full">

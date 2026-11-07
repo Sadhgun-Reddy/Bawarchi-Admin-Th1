@@ -65,11 +65,11 @@ export const CatererComplaintsPage: React.FC = () => {
 
     // Derived State (Filtering logic)
     const filteredData = useMemo(() => {
-        return MOCK_COMPLAINTS.filter((complaint: Complaint) => {
+        const searchLower = state.filters.searchQuery.toLowerCase();
+        return MOCK_COMPLAINTS.filter(complaint => {
             const matchStatus = state.filters.status === 'all' || complaint.status === state.filters.status;
             const matchIssue = state.filters.issueType === 'all' || complaint.issue.type === state.filters.issueType;
 
-            const searchLower = state.filters.searchQuery.toLowerCase();
             const matchSearch = searchLower === '' ||
                 complaint.id.toLowerCase().includes(searchLower) ||
                 complaint.catererName.toLowerCase().includes(searchLower) ||

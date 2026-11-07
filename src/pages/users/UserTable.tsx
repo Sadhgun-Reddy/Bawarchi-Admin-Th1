@@ -141,6 +141,7 @@ export const UserTable: React.FC<UserTableProps> = ({ users, isDark, totalRows, 
                                                 onClick={(e) => { e.stopPropagation(); navigate(`/admin/users/${user.id}`); }}
                                                 className={`p-1.5 transition-colors ${isDark ? 'hover:bg-white/10 rounded-sm text-gray-400 hover:text-white' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`}
                                                 title="View Details"
+                                                aria-label="View Details"
                                             >
                                                 <span className="material-symbols-outlined text-[18px]">visibility</span>
                                             </button>
@@ -148,6 +149,7 @@ export const UserTable: React.FC<UserTableProps> = ({ users, isDark, totalRows, 
                                                 onClick={(e) => e.stopPropagation()}
                                                 className={`p-1.5 transition-colors ${isDark ? 'hover:bg-white/10 rounded-sm text-gray-400 hover:text-white' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`}
                                                 title="Edit User"
+                                                aria-label="Edit User"
                                             >
                                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                                             </button>
@@ -155,6 +157,7 @@ export const UserTable: React.FC<UserTableProps> = ({ users, isDark, totalRows, 
                                                 onClick={(e) => e.stopPropagation()}
                                                 className={`p-1.5 transition-colors ${isDark ? 'hover:bg-danger/20 hover:text-danger rounded-sm text-gray-400' : 'hover:bg-red-100 hover:text-red-600 sharp-corners text-gray-600'}`}
                                                 title="Suspend"
+                                                aria-label="Suspend User"
                                             >
                                                 <span className="material-symbols-outlined text-[18px]">block</span>
                                             </button>
@@ -197,6 +200,7 @@ export const UserTable: React.FC<UserTableProps> = ({ users, isDark, totalRows, 
                                     ? 'hover:bg-white/10 rounded-sm disabled:opacity-30 disabled:hover:bg-transparent'
                                     : 'hover:bg-gray-200 sharp-corners disabled:opacity-30 disabled:hover:bg-transparent text-black'
                                 }`}
+                            aria-label="Previous Page"
                         >
                             <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                         </button>
@@ -208,6 +212,7 @@ export const UserTable: React.FC<UserTableProps> = ({ users, isDark, totalRows, 
                                     ? 'hover:bg-white/10 rounded-sm disabled:opacity-30 disabled:hover:bg-transparent'
                                     : 'hover:bg-gray-200 sharp-corners disabled:opacity-30 disabled:hover:bg-transparent text-black'
                                 }`}
+                            aria-label="Next Page"
                         >
                             <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                         </button>

@@ -79,14 +79,16 @@ export const MenuModerationPage: React.FC = () => {
             } else {
                 matchTab = sub.status === state.activeTab;
             }
+            if (!matchTab) return false;
+
+            if (searchLower === '') return true;
 
             // 2. Fuzzy Search Match
-            const matchSearch = searchLower === '' ||
-                sub.id.toLowerCase().includes(searchLower) ||
+            const matchSearch = sub.id.toLowerCase().includes(searchLower) ||
                 sub.menuName.toLowerCase().includes(searchLower) ||
                 sub.caterer.name.toLowerCase().includes(searchLower);
 
-            return matchTab && matchSearch;
+            return matchSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 

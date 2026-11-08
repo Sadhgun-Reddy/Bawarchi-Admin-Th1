@@ -87,13 +87,10 @@ export const BlogModerationPage: React.FC = () => {
             } else {
                 matchTab = post.status === state.activeTab;
             }
-
-            const matchSearch = searchLower === '' ||
-                post.id.toLowerCase().includes(searchLower) ||
-                post.title.toLowerCase().includes(searchLower) ||
-                post.caterer.name.toLowerCase().includes(searchLower);
+            if (!matchTab) return false;
 
             const matchCategory = state.categoryFilter === null || post.category === state.categoryFilter;
+            if (!matchCategory) return false;
 
             let matchDate = true;
             if (state.dateRange.start || state.dateRange.end) {
@@ -110,8 +107,15 @@ export const BlogModerationPage: React.FC = () => {
                     }
                 }
             }
+            if (!matchDate) return false;
 
-            return matchTab && matchSearch && matchCategory && matchDate;
+            if (searchLower === '') return true;
+
+            const matchSearch = post.id.toLowerCase().includes(searchLower) ||
+                post.title.toLowerCase().includes(searchLower) ||
+                post.caterer.name.toLowerCase().includes(searchLower);
+
+            return matchSearch;
         });
     }, [state.activeTab, state.searchQuery, state.categoryFilter, state.dateRange]);
 

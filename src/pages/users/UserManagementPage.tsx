@@ -23,12 +23,19 @@ export const UserManagementPage: React.FC = () => {
     const filteredUsers = useMemo(() => {
         const lowerQuery = searchQuery.toLowerCase();
         return users.filter(user => {
+            const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+            if (!matchesRole) return false;
+
+            const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
+            if (!matchesStatus) return false;
+
+            if (lowerQuery === '') return true;
+
             const matchesSearch = user.name.toLowerCase().includes(lowerQuery) ||
                 user.id.toLowerCase().includes(lowerQuery) ||
                 user.email.toLowerCase().includes(lowerQuery);
-            const matchesRole = roleFilter === 'all' || user.role === roleFilter;
-            const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
-            return matchesSearch && matchesRole && matchesStatus;
+
+            return matchesSearch;
         });
     }, [users, searchQuery, roleFilter, statusFilter]);
 

@@ -146,6 +146,7 @@ export const CatererTable: React.FC<CatererTableProps> = ({ caterers, isDark, to
                                                 onClick={(e) => { e.stopPropagation(); navigate(`/admin/caterers/${caterer.id}`); }}
                                                 className={`p-1.5 transition-colors ${isDark ? 'hover:bg-white/10 rounded-sm text-gray-400 hover:text-white' : 'hover:bg-gray-200 hover:text-black sharp-corners text-gray-600'}`}
                                                 title="View Profile"
+                                                aria-label="View Profile"
                                             >
                                                 <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                                             </button>

@@ -69,6 +69,7 @@ export const DetailHeader: React.FC<DetailHeaderProps> = ({ user, isDark }) => {
                         : 'text-gray-500 hover:text-red-600 hover:bg-red-50 sharp-corners border border-transparent hover:border-red-200'
                     }`}
                     title="Delete Account"
+                    aria-label="Delete Account"
                 >
                     <span className="material-symbols-outlined">delete_forever</span>
                 </button>

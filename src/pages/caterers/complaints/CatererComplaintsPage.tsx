@@ -8,7 +8,7 @@ import { ManagementTabs } from './ManagementTabs';
 import { ComplaintFilterBar } from './ComplaintFilterBar';
 import { ComplaintTable } from './ComplaintTable';
 import { ComplaintPagination } from './ComplaintPagination';
-import {  Complaint, ComplaintsState, ComplaintFilters } from './types';
+import { ComplaintsState, ComplaintFilters } from './types';
 
 // Mock Data
 

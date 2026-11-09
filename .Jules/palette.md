@@ -4,3 +4,6 @@
 ## 2024-03-24 - Accessibility gaps in icon-only buttons
 **Learning:** Found multiple icon-only buttons in data tables (UserTable, RecentExportsHistory, CatererTable) that rely solely on `title` attributes instead of proper `aria-label`s. Screen readers handle `title` attributes inconsistently, making these actions difficult for non-visual users to understand.
 **Action:** Ensure all icon-only buttons include an `aria-label` matching their visual intent, rather than just `title`.
+## 2026-11-09 - Missing ARIA Labels on Pagination Components
+**Learning:** Icon-only pagination buttons across multiple data tables (e.g., Complaints, Pending Caterers) were missing accessible names, making them difficult for screen reader users to identify their purpose.
+**Action:** Always verify that 'Previous Page' and 'Next Page' icon-only buttons include descriptive `aria-label` attributes during table component development.

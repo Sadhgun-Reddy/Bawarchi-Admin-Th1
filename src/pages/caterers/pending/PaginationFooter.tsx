@@ -41,6 +41,7 @@ export const PaginationFooter: React.FC<PaginationFooterProps> = ({
                             : 'bg-white border border-gray-300 hover:bg-gray-50 text-black disabled:opacity-50 disabled:hover:bg-white sharp-corners'
                         }
                     `}
+                    aria-label="Previous Page"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                 </button>
@@ -79,6 +80,7 @@ export const PaginationFooter: React.FC<PaginationFooterProps> = ({
                             : 'bg-white border border-gray-300 hover:bg-gray-50 text-black disabled:opacity-50 disabled:hover:bg-white sharp-corners'
                         }
                     `}
+                    aria-label="Next Page"
                 >
                     <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </button>

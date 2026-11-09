@@ -41,6 +41,7 @@ export const ComplaintPagination: React.FC<ComplaintPaginationProps> = ({
                             : 'border border-slate-300 hover:bg-slate-100 text-slate-700 disabled:opacity-50 disabled:hover:bg-transparent sharp-corners'
                         }
           `}
+                    aria-label="Previous Page"
                 >
                     <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                 </button>
@@ -75,6 +76,7 @@ export const ComplaintPagination: React.FC<ComplaintPaginationProps> = ({
                             : 'border border-slate-300 hover:bg-slate-100 text-slate-700 disabled:opacity-50 disabled:hover:bg-transparent sharp-corners'
                         }
           `}
+                    aria-label="Next Page"
                 >
                     <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                 </button>

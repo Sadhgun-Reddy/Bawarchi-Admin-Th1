@@ -63,18 +63,15 @@ export const PendingApprovalsPage: React.FC = () => {
         return MOCK_APPLICATIONS.filter((app: PendingCaterer) => {
             // 1. Tab Filtering (UNDER_REVIEW belongs in PENDING tab for now, or just exact match)
             // Let's assume PENDING tab shows both PENDING and UNDER_REVIEW
-            let matchesTab = false;
-            if (state.activeTab === 'ALL') matchesTab = true;
-            else if (state.activeTab === 'PENDING') matchesTab = ['PENDING', 'UNDER_REVIEW'].includes(app.status);
-            else matchesTab = app.status === state.activeTab;
+            if (state.activeTab === 'PENDING' && !['PENDING', 'UNDER_REVIEW'].includes(app.status)) return false;
+            if (state.activeTab !== 'ALL' && state.activeTab !== 'PENDING' && app.status !== state.activeTab) return false;
 
             // 2. Search fuzzy matching
-            const matchesSearch = searchLower === '' ||
-                app.appId.toLowerCase().includes(searchLower) ||
+            if (searchLower === '') return true;
+
+            return app.appId.toLowerCase().includes(searchLower) ||
                 app.businessName.toLowerCase().includes(searchLower) ||
                 app.ownerName.toLowerCase().includes(searchLower);
-
-            return matchesTab && matchesSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 

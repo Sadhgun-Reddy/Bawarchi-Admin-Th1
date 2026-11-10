@@ -8,7 +8,7 @@ import { ManagementTabs } from './ManagementTabs';
 import { ComplaintFilterBar } from './ComplaintFilterBar';
 import { ComplaintTable } from './ComplaintTable';
 import { ComplaintPagination } from './ComplaintPagination';
-import {  Complaint, ComplaintsState, ComplaintFilters } from './types';
+import { ComplaintsState, ComplaintFilters } from './types';
 
 // Mock Data
 
@@ -65,17 +65,18 @@ export const CatererComplaintsPage: React.FC = () => {
 
     // Derived State (Filtering logic)
     const filteredData = useMemo(() => {
+        // ⚡ Bolt: Implemented short-circuiting with early returns.
+        // Bypasses expensive string matching if simple enum checks fail or search query is empty.
         const searchLower = state.filters.searchQuery.toLowerCase();
         return MOCK_COMPLAINTS.filter(complaint => {
-            const matchStatus = state.filters.status === 'all' || complaint.status === state.filters.status;
-            const matchIssue = state.filters.issueType === 'all' || complaint.issue.type === state.filters.issueType;
+            if (state.filters.status !== 'all' && complaint.status !== state.filters.status) return false;
+            if (state.filters.issueType !== 'all' && complaint.issue.type !== state.filters.issueType) return false;
 
-            const matchSearch = searchLower === '' ||
-                complaint.id.toLowerCase().includes(searchLower) ||
+            if (searchLower === '') return true;
+
+            return complaint.id.toLowerCase().includes(searchLower) ||
                 complaint.catererName.toLowerCase().includes(searchLower) ||
                 complaint.issue.description.toLowerCase().includes(searchLower);
-
-            return matchStatus && matchIssue && matchSearch;
         });
     }, [state.filters]);
 

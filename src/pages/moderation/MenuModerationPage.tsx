@@ -70,23 +70,23 @@ export const MenuModerationPage: React.FC = () => {
 
     // Derived State (Filtering logic)
     const filteredData = useMemo(() => {
+        // ⚡ Bolt: Implemented early return short-circuiting.
+        // Simple enum match exits early, avoiding expensive string matching if possible.
         const searchLower = state.searchQuery.toLowerCase();
         return MOCK_SUBMISSIONS.filter(sub => {
             // 1. Tab Status Match
-            let matchTab = false;
             if (state.activeTab === 'HISTORY') {
-                matchTab = sub.status === 'APPROVED' || sub.status === 'REJECTED';
+                if (sub.status !== 'APPROVED' && sub.status !== 'REJECTED') return false;
             } else {
-                matchTab = sub.status === state.activeTab;
+                if (sub.status !== state.activeTab) return false;
             }
 
             // 2. Fuzzy Search Match
-            const matchSearch = searchLower === '' ||
-                sub.id.toLowerCase().includes(searchLower) ||
+            if (searchLower === '') return true;
+
+            return sub.id.toLowerCase().includes(searchLower) ||
                 sub.menuName.toLowerCase().includes(searchLower) ||
                 sub.caterer.name.toLowerCase().includes(searchLower);
-
-            return matchTab && matchSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 

@@ -21,14 +21,19 @@ export const UserManagementPage: React.FC = () => {
     const rowsPerPage = 5;
 
     const filteredUsers = useMemo(() => {
+        // ⚡ Bolt: Hoisted invariant lowerQuery outside the loop and added early returns for cheap equality checks.
+        // This avoids expensive string `.toLowerCase().includes()` ops for items that don't match the active filters,
+        // reducing computation significantly for large lists.
         const lowerQuery = searchQuery.toLowerCase();
         return users.filter(user => {
-            const matchesSearch = user.name.toLowerCase().includes(lowerQuery) ||
+            if (roleFilter !== 'all' && user.role !== roleFilter) return false;
+            if (statusFilter !== 'all' && user.status !== statusFilter) return false;
+
+            if (lowerQuery === '') return true;
+
+            return user.name.toLowerCase().includes(lowerQuery) ||
                 user.id.toLowerCase().includes(lowerQuery) ||
                 user.email.toLowerCase().includes(lowerQuery);
-            const matchesRole = roleFilter === 'all' || user.role === roleFilter;
-            const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
-            return matchesSearch && matchesRole && matchesStatus;
         });
     }, [users, searchQuery, roleFilter, statusFilter]);
 

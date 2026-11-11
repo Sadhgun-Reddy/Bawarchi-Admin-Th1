@@ -8,7 +8,11 @@ import { ManagementTabs } from './ManagementTabs';
 import { ComplaintFilterBar } from './ComplaintFilterBar';
 import { ComplaintTable } from './ComplaintTable';
 import { ComplaintPagination } from './ComplaintPagination';
-import {  Complaint, ComplaintsState, ComplaintFilters } from './types';
+
+import { PerformanceDashboard } from './performance/PerformanceDashboard';
+import { CustomerReviewsDashboard } from './reviews/CustomerReviewsDashboard';
+
+import { ComplaintsState, ComplaintFilters } from './types';
 
 // Mock Data
 
@@ -143,15 +147,11 @@ export const CatererComplaintsPage: React.FC = () => {
                     )}
 
                     {activeTab === 'PERFORMANCE' && (
-                        <div className="p-12 text-center text-sm text-gray-500">
-                            Performance dashboard module pending...
-                        </div>
+                        <PerformanceDashboard isDark={isDark} />
                     )}
 
                     {activeTab === 'REVIEWS' && (
-                        <div className="p-12 text-center text-sm text-gray-500">
-                            Customer reviews module pending...
-                        </div>
+                        <CustomerReviewsDashboard isDark={isDark} />
                     )}
                 </div>
             </div>

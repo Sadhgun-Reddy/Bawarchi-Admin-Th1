@@ -33,7 +33,9 @@ export interface Caterer {
 
 
 
-interface MockDataContextType {
+export interface MockDataContextType {
+    performanceData?: any;
+    customerReviews?: any[];
     users: User[];
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
     caterers: Caterer[];
@@ -50,6 +52,36 @@ interface MockDataContextType {
     setComplaints: React.Dispatch<React.SetStateAction<Complaint[]>>;
 }
 
+export const MOCK_PERFORMANCE_DATA = {
+    resolutionData: [
+        { name: 'Mon', resolved: 4, escalated: 1 },
+        { name: 'Tue', resolved: 3, escalated: 0 },
+        { name: 'Wed', resolved: 5, escalated: 2 },
+        { name: 'Thu', resolved: 2, escalated: 0 },
+        { name: 'Fri', resolved: 6, escalated: 1 },
+        { name: 'Sat', resolved: 1, escalated: 0 },
+        { name: 'Sun', resolved: 2, escalated: 0 },
+    ],
+    resolutionTimeData: [
+        { name: 'Week 1', avgTime: 24 },
+        { name: 'Week 2', avgTime: 18 },
+        { name: 'Week 3', avgTime: 22 },
+        { name: 'Week 4', avgTime: 16 },
+    ],
+    topCaterers: [
+        { name: 'Elite Banquets', count: 12, trend: '+2' },
+        { name: 'Spice Route Services', count: 8, trend: '-1' },
+        { name: 'Fresh Bites Corp', count: 5, trend: '0' },
+    ]
+};
+
+export const MOCK_CUSTOMER_REVIEWS = [
+    { id: 1, caterer: 'Gourmet Spaces Catering', rating: 4, comment: 'Food was great, but delivery was a bit late.', date: '2025-10-14', author: 'Sarah J.' },
+    { id: 2, caterer: 'Elite Banquets', rating: 2, comment: 'Food was cold by the time it arrived.', date: '2025-10-15', author: 'Michael C.' },
+    { id: 3, caterer: 'Spice Route Services', rating: 5, comment: 'Excellent service and delicious food!', date: '2025-10-10', author: 'Anita D.' },
+    { id: 4, caterer: 'Fresh Bites Corp', rating: 1, comment: 'Terrible experience. Missing items.', date: '2025-10-12', author: 'David S.' },
+    { id: 5, caterer: 'Gourmet Spaces Catering', rating: 5, comment: 'Best catering service we have ever used.', date: '2025-10-09', author: 'Linda R.' },
+];
 export const MockDataContext = createContext<MockDataContextType | undefined>(undefined);
 
 const initialUsers: User[] = [
@@ -246,7 +278,9 @@ export const MockDataProvider: React.FC<{ children: ReactNode }> = ({ children }
             menuSubmissions, setMenuSubmissions,
             offers, setOffers,
             catererApplications, setCatererApplications,
-            complaints, setComplaints
+            complaints, setComplaints,
+            performanceData: MOCK_PERFORMANCE_DATA,
+            customerReviews: MOCK_CUSTOMER_REVIEWS
         }}>
             {children}
         </MockDataContext.Provider>

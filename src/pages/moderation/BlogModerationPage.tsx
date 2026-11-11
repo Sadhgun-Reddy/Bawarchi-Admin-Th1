@@ -140,6 +140,9 @@ export const BlogModerationPage: React.FC = () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        // Revoke the object URL to free up memory
+        setTimeout(() => URL.revokeObjectURL(url), 100);
     };
 
     const counts = useMemo(() => {

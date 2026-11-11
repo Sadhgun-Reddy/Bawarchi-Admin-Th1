@@ -61,20 +61,23 @@ export const PendingApprovalsPage: React.FC = () => {
     const filteredData = useMemo(() => {
         const searchLower = state.searchQuery.toLowerCase();
         return MOCK_APPLICATIONS.filter((app: PendingCaterer) => {
+            // ⚡ Bolt: Use early returns to bypass expensive operations
             // 1. Tab Filtering (UNDER_REVIEW belongs in PENDING tab for now, or just exact match)
             // Let's assume PENDING tab shows both PENDING and UNDER_REVIEW
-            let matchesTab = false;
-            if (state.activeTab === 'ALL') matchesTab = true;
-            else if (state.activeTab === 'PENDING') matchesTab = ['PENDING', 'UNDER_REVIEW'].includes(app.status);
-            else matchesTab = app.status === state.activeTab;
+            if (state.activeTab !== 'ALL') {
+                if (state.activeTab === 'PENDING') {
+                    if (app.status !== 'PENDING' && app.status !== 'UNDER_REVIEW') return false;
+                } else if (app.status !== state.activeTab) {
+                    return false;
+                }
+            }
+
+            if (searchLower === '') return true;
 
             // 2. Search fuzzy matching
-            const matchesSearch = searchLower === '' ||
-                app.appId.toLowerCase().includes(searchLower) ||
+            return app.appId.toLowerCase().includes(searchLower) ||
                 app.businessName.toLowerCase().includes(searchLower) ||
                 app.ownerName.toLowerCase().includes(searchLower);
-
-            return matchesTab && matchesSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 

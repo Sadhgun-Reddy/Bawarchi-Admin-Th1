@@ -81,37 +81,31 @@ export const BlogModerationPage: React.FC = () => {
     const filteredData = useMemo(() => {
         const searchLower = state.searchQuery.toLowerCase();
         return MOCK_BLOG_POSTS.filter(post => {
-            let matchTab = false;
+            // ⚡ Bolt: Early returns to short-circuit expensive date and string operations
             if (state.activeTab === 'HISTORY') {
-                matchTab = post.status === 'APPROVED' || post.status === 'REJECTED';
-            } else {
-                matchTab = post.status === state.activeTab;
+                if (post.status !== 'APPROVED' && post.status !== 'REJECTED') return false;
+            } else if (post.status !== state.activeTab) {
+                return false;
             }
 
-            const matchSearch = searchLower === '' ||
-                post.id.toLowerCase().includes(searchLower) ||
-                post.title.toLowerCase().includes(searchLower) ||
-                post.caterer.name.toLowerCase().includes(searchLower);
+            if (state.categoryFilter !== null && post.category !== state.categoryFilter) return false;
 
-            const matchCategory = state.categoryFilter === null || post.category === state.categoryFilter;
-
-            let matchDate = true;
             if (state.dateRange.start || state.dateRange.end) {
                 const postDate = new Date(post.submittedDate);
-                if (state.dateRange.start && postDate < state.dateRange.start) {
-                    matchDate = false;
-                }
+                if (state.dateRange.start && postDate < state.dateRange.start) return false;
                 if (state.dateRange.end) {
                     // Set end date to end of day for inclusive filtering
                     const endOfDay = new Date(state.dateRange.end);
                     endOfDay.setHours(23, 59, 59, 999);
-                    if (postDate > endOfDay) {
-                        matchDate = false;
-                    }
+                    if (postDate > endOfDay) return false;
                 }
             }
 
-            return matchTab && matchSearch && matchCategory && matchDate;
+            if (searchLower === '') return true;
+
+            return post.id.toLowerCase().includes(searchLower) ||
+                post.title.toLowerCase().includes(searchLower) ||
+                post.caterer.name.toLowerCase().includes(searchLower);
         });
     }, [state.activeTab, state.searchQuery, state.categoryFilter, state.dateRange]);
 

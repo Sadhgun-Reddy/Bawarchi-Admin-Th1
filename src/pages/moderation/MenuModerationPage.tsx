@@ -72,21 +72,20 @@ export const MenuModerationPage: React.FC = () => {
     const filteredData = useMemo(() => {
         const searchLower = state.searchQuery.toLowerCase();
         return MOCK_SUBMISSIONS.filter(sub => {
+            // ⚡ Bolt: Early returns to short-circuit expensive string operations
             // 1. Tab Status Match
-            let matchTab = false;
             if (state.activeTab === 'HISTORY') {
-                matchTab = sub.status === 'APPROVED' || sub.status === 'REJECTED';
-            } else {
-                matchTab = sub.status === state.activeTab;
+                if (sub.status !== 'APPROVED' && sub.status !== 'REJECTED') return false;
+            } else if (sub.status !== state.activeTab) {
+                return false;
             }
 
+            if (searchLower === '') return true;
+
             // 2. Fuzzy Search Match
-            const matchSearch = searchLower === '' ||
-                sub.id.toLowerCase().includes(searchLower) ||
+            return sub.id.toLowerCase().includes(searchLower) ||
                 sub.menuName.toLowerCase().includes(searchLower) ||
                 sub.caterer.name.toLowerCase().includes(searchLower);
-
-            return matchTab && matchSearch;
         });
     }, [state.activeTab, state.searchQuery]);
 
